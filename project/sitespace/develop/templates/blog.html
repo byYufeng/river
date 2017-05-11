@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body%}
+    {% if session.logged_in %}
+        <form action="{{ url_for('add_article') }}" method=post class=add-article>
+            <dl>
+                <dt>Title:
+                    <dd><input type=text size=30 name=title>
+                <dt>Text:
+                    <dd><textarea rows=5 cols=40 name=text></textarea>
+                <dd><input type=submit value=Publish>
+            </dl>
+        </form>
+    {% endif %}
+    <ul class=articles>
+    {% for article in articles %}
+        <li>
+            <h2 style="display:inline;">{{ article.title }}</h2>&nbsp;&nbsp;--{{ article.author }}</br>
+            {{article.text|safe}}</br>
+            </br>
+        </li>
+    {% else %}
+        <li><em>This guy is so lazy...</em></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+    

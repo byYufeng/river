@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block container %}
+{{util.flashed_messages(dismissible=True)}}
+<div class="container">
+  <h1>Hello, everyone!</h1>
+  <h1>Welcome to my space.</h1>
+  <h2><b>只有我和你 懂得我的好.</b></h2>
+  </br>
+
+  <h3><b>搜索引擎</b></h3>
+  {{ wtf.quick_form(custom_form.google, form_type='inline', button_map={'submit_button': 'primary'}, action='deal') }}
+  </br>
+  {{ wtf.quick_form(custom_form.lagou, form_type='inline', button_map={'submit_button': 'primary'}, action='deal') }}
+  </br>
+  {{ wtf.quick_form(custom_form.douban, form_type='inline', button_map={'submit_button': 'primary'}, action='deal') }}
+  </br>
+
+  <h3><b>自定义模块</b></h3>
+
+</div>
+{% endblock %}

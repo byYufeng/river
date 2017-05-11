@@ -10,8 +10,9 @@ alias rm='trash'
 trash()
 {
     # I quote this path last time and suffers a lot...
-    if [ ! -d ~/.trash ]; then
-        mkdir ~/.trash
-    fi
-    mv $@ ~/.trash
+    #if [ ! -d ~/.trash ]; then
+    #    mkdir ~/.trash
+    #fi
+    mkdir -p ~/.trash/`date +%Y%m%dT%H%M%S`
+    mv $@ ~/.trash/`date +%Y%m%dT%H%M%S`
 }

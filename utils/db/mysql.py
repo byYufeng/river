@@ -6,9 +6,8 @@ sys.setdefaultencoding("utf-8")
 import MySQLdb
 
 class Mysql(object):
-    """docstring for ClassName"""
     def __init__(self,host='localhost',port=3306,user='',passwd='',db_name=''):
-        super(mysql, self).__init__()
+        #super(mysql, self).__init__()
         self.conn = MySQLdb.connect(host=host,port=port,user=user,passwd=passwd,db=db_name,charset='utf8')
         self.cursor =self.conn.cursor()
 

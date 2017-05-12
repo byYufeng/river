@@ -14,25 +14,37 @@ set sw=4
 set ts=4
 set sts=4
 
-"新文件自动生成代码模版
-autocmd BufNewFile *.* exec ":call SetComment()" | normal 12G
+"根据缓冲区文件，自动生成模板和更新代码
 func SetComment()
-    if expand("%:e") == 'py'
-        call append(0, '#!/usr/bin/env python')
+    if expand("%:e") == "py"
+        call setline(1, '#!/usr/bin/env python')
         call append(1, '#coding:utf-8')
-        call append(2, "#Created by baiyufeng")
-        call append(3, '')
-        call append(4, 'import sys')
-        call append(5, 'reload(sys)')
-        call append(6, 'sys.setdefaultencoding("utf-8")')
+        call append(2, '"""')
+        call append(3, 'Author: rainwind')
+        call append(4, 'Create Time: ' . strftime('%Y-%m-%d %H:%M:%S'))
+        call append(5, 'Last modify: ' . strftime('%Y-%m-%d %H:%M:%S'))
+        call append(6, '"""')
         call append(7, '')
-        call append(8, 'import os')
-        call append(9, '')
-        call append(10, 'def main():')
-        call append(11, '     ')
-        call append(12, '')
-        call append(13, 'if __name__ == "__main__":')
-        call append(14, '    main()')
+        call append(8, 'import sys')
+        call append(9, 'reload(sys)')
+        call append(10, 'sys.setdefaultencoding("utf-8")')
+        call append(11, '')
+        call append(12, 'import os, time')
+        call append(13, '')
+        call append(14, 'def main():')
+        call append(15, '     ')
+        call append(16, '')
+        call append(17, 'if __name__ == "__main__":')
+        call append(18, '    main()')
     endif
 endfunc
+autocmd BufNewFile *.* exec ":call SetComment()" | normal 16G
 
+function UpdateTime()
+    call cursor(5, 1) 
+    if search('Last modify:') != 0
+        let line = line('.')
+        call setline(line, 'Last modify: ' . strftime('%Y-%m-%d %H:%M:%S'))
+    endif
+endfunction
+:autocmd FileWritePre,BufWritePre *.py ks | call UpdateTime() | 's

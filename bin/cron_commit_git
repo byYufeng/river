@@ -1,0 +1,1 @@
+30 * * * * sh $HOME/river/bin/commit_git.sh

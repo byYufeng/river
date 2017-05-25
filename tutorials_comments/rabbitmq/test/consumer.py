@@ -10,7 +10,9 @@ import os, time
 
 def main():
     import pika
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbit'))
+
+    host = 'localhost'
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
     channel = connection.channel()
 
     exchange_name = 'test_topic'
@@ -24,7 +26,7 @@ def main():
     print(' [*] Waiting for messages. To exit press CTRL+C')
 
     def callback(ch, method, properties, body):
-        print(" [x] %s:%s %s Received %r" % (exchange_name, queue_name, routing_key, body))
+        print(" [x] %s:%s:%s Received %r %r %r %r" % (exchange_name, queue_name, routing_key, ch, method, properties, body))
         print(' [x] Done')
         #ch.basic_ack(delivery_tag = method.delivery_tag)
 

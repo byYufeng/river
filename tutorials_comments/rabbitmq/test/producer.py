@@ -10,7 +10,10 @@ import os
 
 def main():
     import pika
-    connection = pika.BlockingConnection(pika.ConnectionParameters('rabbit'))
+
+    host = 'localhost'
+    #connection = pika.BlockingConnection(pika.ConnectionParameters('rabbit'))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host))
     channel = connection.channel()
     exchange_name = 'test_topic'
     channel.exchange_declare(exchange=exchange_name, durable=True, type='topic')

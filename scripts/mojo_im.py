@@ -65,7 +65,7 @@ def main():
     ##search-simple: qq/wx id/markname/... objtext
     args = sys.argv 
     im, op, params = args[1], args[2], args[3:]
-    print '%s %s %s' % (im, op, params)
+    #print '%s %s %s' % (im, op, params)
     
     if op == 'start':
         cmd = start(im)

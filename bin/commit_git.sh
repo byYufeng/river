@@ -1,5 +1,10 @@
 #find. -type d -empty -exec touch {}/.gitignore \; #make sure to commit empty folder
 
+#cp .bashrc
+cp ~/.bashrc ~/riven/bin/.bashrc
+cp ~/.vimrc ~/riven/bin/.vimrc
+
+#add comment
 if [ -n "$1" ]; then
     message=$1
 else

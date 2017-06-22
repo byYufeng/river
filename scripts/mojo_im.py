@@ -18,14 +18,21 @@ def start(im, params):
         elif im == 'wx':
             cmd = 'sudo docker pull sjdy521/mojo-weixin'
         return cmd
-    os.system(cmd)
+    _cmd = update(im, params)
+    os.system(_cmd)
     
-    if im == 'qq':
-        cmd = 'sudo docker run --name qq -d --env MOJO_WEBQQ_LOG_ENCODING=utf8 --env MOJO_WEBQQ_IS_INIT_GROUP=0 --env MOJO_WEBQQ_IS_UPDATE_GROUP=0 --env MOJO_WEBQQ_MSG_TTL=99999 -p 5000:5000 -v /tmp:/tmp sjdy521/mojo-webqq'
-        #cmd = 'sudo docker run --name qq -it --env MOJO_WEBQQ_LOG_ENCODING=utf8 -p 5000:5000 -v /tmp:/tmp sjdy521/mojo-webqq'
-    elif im == 'wx':
-        cmd = 'sudo docker run --name wx -d --env MOJO_WEIXIN_LOG_ENCODING=utf8 -p 3000:3000 -v /tmp:/tmp sjdy521/mojo-weixin'
-        #cmd = 'sudo docker run --name wx -it --env MOJO_WEIXIN_LOG_ENCODING=utf8 -p 3000:3000 -v /tmp:/tmp sjdy521/mojo-weixin'
+    #若参数为1则新起容器，否则直接启动旧的
+    param = params[0] if params else None
+    if param == '1':
+        if im == 'qq':
+            cmd = 'sudo docker run --name qq -d --env MOJO_WEBQQ_LOG_ENCODING=utf8 --env MOJO_WEBQQ_IS_INIT_GROUP=0 --env MOJO_WEBQQ_IS_UPDATE_GROUP=0 --env MOJO_WEBQQ_MSG_TTL=99999 -p 5000:5000 -v /tmp:/tmp sjdy521/mojo-webqq'
+        elif im == 'wx':
+            cmd = 'sudo docker run --name wx -d --env MOJO_WEIXIN_LOG_ENCODING=utf8 -p 3000:3000 -v /tmp:/tmp sjdy521/mojo-weixin'
+    else:
+        if im == 'qq':
+            cmd = 'sudo docker start qq'
+        elif im == 'wx':
+            cmd = 'sudo docker start wx'
     return cmd
 
 #搜索好友
@@ -58,7 +65,7 @@ def send(im, params):
     return "curl '%s'" % api
 
 #刷新显示
-def print(im, params=0):
+def printt(im, params):
 
     def _print(im):
         cmd = 'sudo docker logs %s' % (im)
@@ -87,6 +94,7 @@ def test():
 def main():
     args = sys.argv 
     im, op, params = args[1], args[2], args[3:]
+    print('IM:%s OP:%s PARAMS:%s' % (im, op, params))
     '''
     start: qq/wx # start 
     search: qq/wx # id/markname xxx ...
@@ -95,10 +103,10 @@ def main():
     print: qq/wx # 1/0
     clear: qq/wx # 
     '''
-    #print '%s %s %s' % (im, op, params)
     'curl http://127.0.0.1:5000/openqq/get_user_info | jq . '
     
-    cmd = op(im, params)
+    #cmd = op(im, params)
+    cmd = globals()[op](im, params)
     print('cmd:%s' % cmd)
     os.system(cmd)
 

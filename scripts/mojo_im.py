@@ -68,7 +68,7 @@ def send(im, params):
 def printt(im, params):
 
     def _print(im):
-        cmd = 'sudo docker logs %s' % (im)
+        cmd = 'clear | sudo docker logs %s | tail' % (im)
         return cmd
 
     if params:

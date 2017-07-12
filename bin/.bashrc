@@ -17,4 +17,6 @@ trash()
     mv $@ ~/.trash/`date +%Y%m%dT%H%M%S`
 }
 alias riven_commit='cd ~/riven && bin/commit_git.sh'
+
+#disable generate .pyc
 export PYTHONDONTWRITEBYTECODE=x

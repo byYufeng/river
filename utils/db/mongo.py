@@ -11,27 +11,47 @@ import traceback
 
 class Mongo(object):
 
-    def __init__(self,config):
-        # connect db
-        dbhost, dbport, dbuser, dbpass , dbname, dbcoll= config['host'], config['port'], config['username'], config['password'], config.get('db', ''), config.get('collection', '')
+    def __init__(self, config):
+        # connect mongo_
+        mongo_host, mongo_port, mongo_user, mongo_pass , mongo_db, mongo_coll = 
+        config['host'], config['port'], config['username'], config['password'], config.get('db', ''), config.get('collection', '')
         try:
-            self.conn = pymongo.MongoClient(dbhost, dbport)
-            if dbuser and dbpass:
-                self.connected = self.db.authenticate(dbuser, dbpass)
+            self.conn = pymongo.MongoClient(mongo_host, mongo_port)
+            #self.conn = pymongo.MongoClient("mongodb://%s:%s@%s" % mongo_user, mongo_pass, mongo_host+":"+mongo_port)
+            if mongo_user and mongo_pass:
+                self.connected = self.conn.authenticate(mongo_user, mongo_pass)
             else:
                 self.connected = True
-            if dbname:
-                self.db = self.conn[dbname]  # connect db
-            if dbcoll:
-                self.coll = self.db[dbcoll]
+
+            if mongo_name:
+                self.db = self.conn[mongo_name]  # connect mongo_
+            if mongo_coll:
+                self.coll = self.db[mongo_coll]
         except Exception:
-            print dbhost, dbport, dbuser, dbpass, dbname, dbcoll
+            print mongo_host, mongo_port, mongo_user, mongo_pass, mongo_db, mongo_coll
             print traceback.format_exc()
-            print 'Connect Statics Database Fail.'
+            print 'Connect Database Fail.'
             sys.exit(1)
 
+    def get_db_names(self):
+        return self.conn.database_names()
+
+    def get_coll_names(self, db):
+        return self.conn[db].collection_names()
+
+    def bulk(self, db, coll, data, bulk_size, op="insert"):
+        try:
+            bulk = self.conn[db][coll].initialize_unordered_bulk_op()
+            for _data in data:
+                bulk.insert(_data)
+            bulk.execute()
+        except pymongo.errors.BulkWriteError as e :
+            print e.details
+        except OverflowError as e :
+            print e
+
     def __del__(self):
-        # disconnect db
+        # disconnect mongo_
         self.conn.close()
 
 if __name__ == "__main__":
@@ -47,4 +67,3 @@ if __name__ == "__main__":
     results = mongo_local.conn['test']['test'].find({})
     for result in results:
         print result
-    

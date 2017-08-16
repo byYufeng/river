@@ -14,6 +14,8 @@ set sw=4
 set ts=4
 set sts=4
 
+set paste
+
 "根据缓冲区文件，自动生成模板和更新代码
 func SetComment()
     if expand("%:e") == "py"

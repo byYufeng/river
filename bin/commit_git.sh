@@ -11,6 +11,7 @@ else
     message='auto commit...'
 fi
 
+cd ~/riven
 git add *
 git add -A
 git status

@@ -20,3 +20,21 @@ alias riven_commit='cd ~/riven && bin/commit_git.sh'
 
 #disable generate .pyc
 export PYTHONDONTWRITEBYTECODE=x
+
+#download and upload files like scp
+#The folder name always strange when use dl
+dl(){
+        cmd="ssh $1 tar cz $2 | tar xzv"
+        echo $cmd
+        $cmd
+}
+
+ul(){
+        cmd="tar cz $2 | ssh $1 tar xzv"
+        echo $cmd
+        $cmd
+}
+
+#eval `ssh-agent`
+#ssh-add ~/code/documents/key/id_rsa.r81.hdp
+

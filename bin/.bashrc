@@ -8,7 +8,8 @@ fi
 # User specific aliases and functions
 #alias riven_commit='cd ~/riven && bin/commit_git.sh $1 && cd -'
 riven_commit(){
-    cd ~/riven && ./bin/commit_git.sh $1 && cd -
+    cd ~/riven && ./bin/commit_git.sh $1
+    cd -
 }
 
 #disable generate .pyc

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #find. -type d -empty -exec touch {}/.gitignore \; #make sure to commit empty folder
 
 #cp .bashrc

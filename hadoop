@@ -1,0 +1,10 @@
+hadoop理解
+
+hadoop框架分为计算资源和存储资源两大部分。
+存储资源就是指HDFS，可以让我们像在unix文件系统中操作文件一样对集群上的分布式文件进行操作。HDFS对存储在上面的文件实现了分块存储和备份等技术，当然对我们是屏蔽了内部细节的，外 部使用时只用把他们看做单一的文件即可
+计算资源根据hadoop版本的不同也分为两种。在1.0版本中，主要有jobtracer、tasktracer等进程，分别提供任务的调度和计算。在2.0版本中，jobtracer由Yarn平台代替，提供了一个更通用、更 有伸缩性的平台，让我们可以把spark等计算任务也跑在MR集群中
+在实际工作中，接触最多的其实还是map、reduce任务的实现和任务的提交。map任务把输入映射成key/value对，传递给reducer，并进行累加、聚合等计算，然后输出
+除此之外，可能还会涉及到InputFormatter、Shuffle等内容...
+代码的实现一般使用原生的java语言，编写Map和Reduce类后，在主类中设定conf和job参数，conf参数读取shell参数设定输入和输出路径、设定cachefile等内容，job参数中指定入口类、map类、InputFormat类等参数，然后打成jar包提交任务
+也可以用python等语言编写，使用hadoop-streaming完成计算，最后用shell设定参数并提交任务
+

@@ -57,6 +57,7 @@ def search(im, params):
 #发送信息
 def send(im, params):
     if im == 'qq':
+        #search(im, params[])
         #uid(qq号)
         api = 'http://127.0.0.1:5000/openqq/send_friend_message?%s=%s&content=%s' % (params[0], params[1], params[2])
     elif im == 'wx':
@@ -68,7 +69,7 @@ def send(im, params):
 def printt(im, params):
 
     def _print(im):
-        cmd = 'clear | sudo docker logs %s | tail' % (im)
+        cmd = 'clear | sudo docker logs %s | tail -n 50' % (im)
         return cmd
 
     if params:

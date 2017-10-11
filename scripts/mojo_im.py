@@ -100,7 +100,7 @@ def main():
     search: qq/wx # id/markname xxx ...
     send: qq/wx # uid(qq)/markname(wx)/ xxx content
     search-simple: qq/wx # id/markname/... objtext
-    print: qq/wx # 1/0
+    printt: qq/wx # 1/0
     clear: qq/wx # 
     '''
     'curl http://127.0.0.1:5000/openqq/get_user_info | jq . '

@@ -2,7 +2,6 @@
 "语法高亮 显示行号和底部标尺
 syntax on
 set number
-set ruler
 
 "底部显示文件名
 set ls=2
@@ -15,6 +14,7 @@ set ts=4
 set sts=4
 
 set paste
+set ruler
 
 "根据缓冲区文件，自动生成模板和更新代码
 func SetComment()

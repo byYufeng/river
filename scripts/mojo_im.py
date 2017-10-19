@@ -63,7 +63,7 @@ def send(im, params):
     elif im == 'wx':
         #account帐号 markname备注
         api = 'http://127.0.0.1:3000/openwx/send_friend_message?%s=%s&content=%s' % (params[0], params[1], ''.join(params[2]))
-    return "curl '%s'" % api
+    return "curl %s '%s'" % ('-w "\\n"', api)
 
 #刷新显示
 def printt(im, params):

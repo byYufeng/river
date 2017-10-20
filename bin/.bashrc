@@ -47,3 +47,6 @@ ssh-agent_login(){
         ssh-add ~/code/documents/key/id_rsa.r81.hdp
 }
 
+alias ll='ls -lh --color=auto'
+alias free='free -h'
+

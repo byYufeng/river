@@ -49,4 +49,4 @@ ssh-agent_login(){
 
 alias ll='ls -lh --color=auto'
 alias free='free -h'
-
+alias tt="python ~/mojo_im.py qq send uid 1873181129 "

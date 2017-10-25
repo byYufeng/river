@@ -2,7 +2,7 @@
 
 #find. -type d -empty -exec touch {}/.gitignore \; #make sure to commit empty folder
 
-#cp .bashrc
+#save bashrc&vimrc
 cp ~/.bashrc ~/riven/bin/.bashrc
 cp ~/.vimrc ~/riven/bin/.vimrc
 

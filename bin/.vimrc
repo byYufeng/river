@@ -1,7 +1,10 @@
 "注释
-"语法高亮 显示行号和底部标尺
+"语法高亮 搜索高亮 设置粘贴模式 显示行号和底部标尺
 syntax on
+set paste
+set hlsearch
 set number
+set ruler
 
 "底部显示文件名
 set ls=2
@@ -13,8 +16,6 @@ set sw=4
 set ts=4
 set sts=4
 
-set paste
-set ruler
 
 "根据缓冲区文件，自动生成模板和更新代码
 func SetComment()

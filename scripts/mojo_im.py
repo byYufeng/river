@@ -65,11 +65,12 @@ def send(im, params):
         api = 'http://127.0.0.1:3000/openwx/send_friend_message?%s=%s&content=%s' % (params[0], params[1], ''.join(params[2]))
     return "curl %s '%s'" % ('-w "\\n"', api)
 
-#刷新显示
+#刷新/显示
 def printt(im, params):
 
+    #打印日志，过滤掉info信息，输出最近50条(一屏幕)
     def _print(im):
-        cmd = 'clear | sudo docker logs %s | tail -n 50' % (im)
+        cmd = 'clear | sudo docker logs %s | grep -v [info] | tail -n 50' % (im)
         return cmd
 
     if params:

@@ -2,9 +2,9 @@
 
 #find. -type d -empty -exec touch {}/.gitignore \; #make sure to commit empty folder
 
-#save bashrc&vimrc
-cp ~/.bashrc ~/riven/bin/.bashrc
-cp ~/.vimrc ~/riven/bin/.vimrc
+#save bashrc&bash_profile&vimrc
+cp ~/.bashrc ~/.bash_profile ~/.vimrc \
+    ~/riven/.env
 
 #add comment
 if [ -n "$1" ]; then

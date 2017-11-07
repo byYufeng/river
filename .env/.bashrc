@@ -51,5 +51,7 @@ alias ll='ls -lh --color=auto'
 alias free='free -h'
 
 alias im="python ~/mojo_im.py "
+alias qq="python ~/mojo_im.py qq"
+alias wx="python ~/mojo_im.py wx"
 alias ttt="python ~/mojo_im.py qq printt | tail -7 | head -5"
 alias tt="python ~/mojo_im.py qq send uid 1873181129 "

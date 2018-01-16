@@ -23,8 +23,8 @@ trash()
     #if [ ! -d ~/.trash ]; then
     #    mkdir ~/.trash
     #fi 
-    mkdir -p ~/.trash/`date +%Y%m%dT%H%M%S`
-    mv $@ ~/.trash/`date +%Y%m%dT%H%M%S`
+    mkdir -p ~/.trash/`date +%Y%m%dT%H%M`
+    mv $@ ~/.trash/`date +%Y%m%dT%H%M`
 }
 
 #download and upload files like scp

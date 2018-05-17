@@ -21,7 +21,7 @@ def start(im, params):
     _cmd = update(im, params)
     os.system(_cmd)
     
-    #若参数为1则新起容器，否则直接启动旧的
+    #若参数为1则新起容器，否则直接启动已存在的
     param = params[0] if params else None
     if param == '1':
         if im == 'qq':
@@ -33,6 +33,11 @@ def start(im, params):
             cmd = 'sudo docker start qq'
         elif im == 'wx':
             cmd = 'sudo docker start wx'
+
+    #启动之后输出一下登录信息
+    cmd += ';'
+    cmd = 'clear | sudo docker logs %s | tail' % (im)
+
     return cmd
 
 #搜索好友
@@ -82,16 +87,18 @@ def printt(im, params):
         return _print(im)
 
 #清理容器
-def clear(im):
+def clear(im, params):
     if im == 'qq':
         cmd = 'sudo docker rm -f qq && sudo rm -f /tmp/mojo_webqq_*'
     elif im == 'wx':
         cmd = 'sudo rm -f /tmp/mojo_*'
     return cmd
 
+#停止容器
+def stop(im, params):
+    cmd = 'sudo docker stop %s' % im
+    return cmd
 
-def test():
-    pass
 
 def main():
     args = sys.argv 

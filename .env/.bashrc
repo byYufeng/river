@@ -48,6 +48,7 @@ ssh-agent_login(){
 }
 
 alias ll='ls -lh --color=auto'
+alias vim_none='vim -u NONE'
 alias free='free -h'
 
 alias im="python ~/mojo_im.py "

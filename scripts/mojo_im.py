@@ -22,7 +22,7 @@ def start(im, params):
     os.system(_cmd)
     
     #若参数为1则新起容器，否则直接启动已存在的
-    param = params[0] if params else None
+    param = params[0] if params else 0
     if param == '1':
         if im == 'qq':
             cmd = 'sudo docker run --name qq -d --env MOJO_WEBQQ_LOG_ENCODING=utf8 --env MOJO_WEBQQ_IS_INIT_GROUP=0 --env MOJO_WEBQQ_IS_UPDATE_GROUP=0 --env MOJO_WEBQQ_MSG_TTL=99999 -p 5000:5000 -v /tmp:/tmp sjdy521/mojo-webqq'

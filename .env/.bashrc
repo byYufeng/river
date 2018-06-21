@@ -5,15 +5,16 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-# User specific aliases and functions
-#alias riven_commit='cd ~/riven && bin/commit_git.sh $1 && cd -'
-riven_commit(){
-    cd ~/riven && ./bin/commit_git.sh $1
-    cd -
-}
 
-#disable generate .pyc
-export PYTHONDONTWRITEBYTECODE=x
+alias ll='ls -lh --color=auto'
+alias vim_none='vim -u NONE'
+alias free='free -h'
+
+alias im="python ~/scripts/mojo_im.py "
+alias qq="python ~/scripts/mojo_im.py qq"
+alias wx="python ~/scripts/mojo_im.py wx"
+alias ttt="python ~/scripts/mojo_im.py qq printt | tail -7 | head -5"
+alias tt="python ~/scripts/mojo_im.py qq send uid 1873181129 "
 
 #replace rm of mv
 alias rm='trash'
@@ -27,6 +28,17 @@ trash()
     mkdir -p ~/.trash/$timestamp
     mv $@ ~/.trash/$timestamp/
 }
+
+# User specific aliases and functions
+# alias riven_commit='cd ~/riven && bin/commit_git.sh $1 && cd -'
+riven_commit(){
+    cd ~/riven && ./bin/commit_git.sh $1
+    cd -
+}
+
+#disable generate .pyc
+export PYTHONDONTWRITEBYTECODE=x
+
 
 #download and upload files like scp
 #but...The folder name always strange when use dl
@@ -47,16 +59,6 @@ ssh-agent_login(){
         eval `ssh-agent`
         ssh-add ~/code/documents/key/id_rsa.r81.hdp
 }
-
-alias ll='ls -lh --color=auto'
-alias vim_none='vim -u NONE'
-alias free='free -h'
-
-alias im="python ~/mojo_im.py "
-alias qq="python ~/mojo_im.py qq"
-alias wx="python ~/mojo_im.py wx"
-alias ttt="python ~/mojo_im.py qq printt | tail -7 | head -5"
-alias tt="python ~/mojo_im.py qq send uid 1873181129 "
 
 tmux_init()
 {

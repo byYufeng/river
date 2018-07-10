@@ -1,13 +1,16 @@
 "注释
-"语法高亮 搜索高亮 设置粘贴模式 显示行号和底部标尺
+
+"语法高亮 搜索高亮 显示行号和底部标尺 底部显示文件名
 syntax on
-set paste
 set hlsearch
 set number
 set ruler
-
-"底部显示文件名
 set ls=2
+
+"粘贴模式
+set paste
+autocmd InsertEnter * setlocal paste
+autocmd InsertLeave * setlocal nopaste
 
 "检测文件类型并根据类型自动缩进 使用空格代替tab shiftwidth自动缩进宽度 tabstop空格数量 删除tab时删除空格数量
 filetype indent on

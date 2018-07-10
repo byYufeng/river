@@ -19,9 +19,9 @@
     - fanout-exchange会ignore掉binding key
     - direct-exchange可以binding多个key
 - topics
-    - 发消息的时候producer指定个exchange即可。每个consumer建一个queue，绑定好routing_keys之后即可。
-        -一个exchange可以绑定多个queue，一个queue可以绑定多个routing_key规则
-    - topic-exchange的binding key由word.word.word...形式组成。其中word可以是两种通配符： ×(star) 代表 恰好一个词， #(hash) 代表没有或多个词
+    - 发消息的时候producer指定exchange。每个consumer建一个queue，绑定好routing_keys之后即可。
+        -一个exchange可以绑定多个queue，一个queue可以绑定多个routing_key规则。每个queue独立平行消费
+    - topic-exchange的binding key由word.word.word...形式组成。其中word可以是两种通配符： * 代表 恰好一个词， #(hash) 代表没有或多个词
     - topic的binding key 为"#"时，表现为"fanout"；为"*"时，表现为"direct"
 - rpc
     - 其实就是建立两个queue:call和callback。client携带一个uuid publish请求到server监听的call_queue，server处理后publish到client监听的callback_queue。client持续获取消息，验证uuid后拿到结果

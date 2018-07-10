@@ -19,6 +19,10 @@ set sts=4
 
 "根据缓冲区文件，自动生成模板和更新代码
 func SetComment()
+    if expand("%:e") == "sh"
+        call setline(1, '#!/bin/bash')
+        call append(1, '')
+    endif
     if expand("%:e") == "py"
         call setline(1, '#!/usr/bin/env python')
         call append(1, '#coding:utf-8')
@@ -33,16 +37,19 @@ func SetComment()
         call append(10, 'sys.setdefaultencoding("utf-8")')
         call append(11, '')
         call append(12, 'import os, time')
-        call append(13, '')
-        call append(14, 'def main():')
-        call append(15, '     ')
-        call append(16, '')
-        call append(17, 'if __name__ == "__main__":')
-        call append(18, '    main()')
+        call append(13, 'import traceback, json')
+        call append(14, '')
+        call append(15, 'def main():')
+        call append(16, '     ')
+        call append(17, '')
+        call append(18, 'if __name__ == "__main__":')
+        call append(19, '    main()')
     endif
 endfunc
-autocmd BufNewFile *.* exec ":call SetComment()" | normal 16G
+autocmd BufNewFile *.sh exec ":call SetComment()" | normal 2G
+autocmd BufNewFile *.py exec ":call SetComment()" | normal 17G
 
+"更新时间
 function UpdateTime()
     call cursor(5, 1) 
     if search('Last modify:') != 0

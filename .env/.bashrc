@@ -5,7 +5,6 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-
 alias ll='ls -lh --color=auto'
 alias vim_none='vim -u NONE'
 alias free='free -h'
@@ -27,6 +26,12 @@ trash()
     timestamp=`date +%Y%m%dT%H%M`
     mkdir -p ~/.trash/$timestamp
     mv $@ ~/.trash/$timestamp/
+}
+
+#alias nohup='nohupp'
+nohupp(){
+    pwd
+    /usr/bin/nohup ./$1 > $1.out 2>&1 &
 }
 
 # User specific aliases and functions
@@ -71,7 +76,8 @@ tmux_init()
 }
 
 # 判断是否已有开启的tmux会话，没有则开启
+tmux_auto_attach(){
 if which tmux 2>&1 >/dev/null; then
     test -z "$TMUX" && (tmux attach || tmux_init)
 fi
-
+}

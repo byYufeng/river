@@ -6,6 +6,8 @@ if [ -f /etc/bashrc ]; then
 fi
 
 alias ll='ls -lh --color=auto'
+alias mv='mv -i'
+alias mv='mp -i'
 alias vim_none='vim -u NONE'
 alias free='free -h'
 

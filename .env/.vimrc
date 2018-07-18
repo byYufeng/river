@@ -24,13 +24,14 @@ set sts=4
 func SetComment()
     if expand("%:e") == "sh"
         call setline(1, '#!/bin/bash')
-        call append(1, '')
+        call append(1, 'Author: fsrm')
+        call append(2, '')
     endif
     if expand("%:e") == "py"
         call setline(1, '#!/usr/bin/env python')
         call append(1, '#coding:utf-8')
         call append(2, '"""')
-        call append(3, 'Author: rainwind')
+        call append(3, 'Author: fsrm')
         call append(4, 'Create Time: ' . strftime('%Y-%m-%d %H:%M:%S'))
         call append(5, 'Last modify: ' . strftime('%Y-%m-%d %H:%M:%S'))
         call append(6, '"""')
@@ -49,7 +50,7 @@ func SetComment()
         call append(19, '    main()')
     endif
 endfunc
-autocmd BufNewFile *.sh exec ":call SetComment()" | normal 2G
+autocmd BufNewFile *.sh exec ":call SetComment()" | normal 3G
 autocmd BufNewFile *.py exec ":call SetComment()" | normal 17G
 
 "更新时间

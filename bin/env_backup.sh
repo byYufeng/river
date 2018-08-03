@@ -1,2 +1,4 @@
-cp ~/.bashrc ~/.bash_profile ~/.vimrc \
-    ~/riven/.env
+cp ~/.bashrc \
+   ~/.bash_profile \
+   ~/.vimrc \
+   ~/riven/.env

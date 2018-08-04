@@ -1,4 +1,4 @@
 cp ~/.bashrc \
    ~/.bash_profile \
    ~/.vimrc \
-   ~/riven/.env
+   ~/riven/config/sys_env

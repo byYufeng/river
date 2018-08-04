@@ -1,9 +1,9 @@
-data/*
-logs/*
-
-*.pyc
-
 !*.gitignore
 !*.gitkeep
 
-!.env/*
+*.pyc
+
+!config/sys_env/*
+
+data/*
+logs/*

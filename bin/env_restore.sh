@@ -1,1 +1,1 @@
-cp ~/riven/.env/* ~
+cp ~/riven/config/sys_env/* ~

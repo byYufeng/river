@@ -24,8 +24,9 @@ set sts=4
 func SetComment()
     if expand("%:e") == "sh"
         call setline(1, '#!/bin/bash')
-        call append(1, 'Author: fsrm')
+        call append(1, '#Author: fsrm')
         call append(2, '')
+        call append(3, '')
     endif
     if expand("%:e") == "py"
         call setline(1, '#!/usr/bin/env python')
@@ -50,7 +51,7 @@ func SetComment()
         call append(19, '    main()')
     endif
 endfunc
-autocmd BufNewFile *.sh exec ":call SetComment()" | normal 3G
+autocmd BufNewFile *.sh exec ":call SetComment()" | normal 4G
 autocmd BufNewFile *.py exec ":call SetComment()" | normal 17G
 
 "自动维护修改时间

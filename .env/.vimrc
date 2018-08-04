@@ -53,7 +53,7 @@ endfunc
 autocmd BufNewFile *.sh exec ":call SetComment()" | normal 3G
 autocmd BufNewFile *.py exec ":call SetComment()" | normal 17G
 
-"更新时间
+"自动维护修改时间
 function UpdateTime()
     call cursor(5, 1) 
     if search('Last modify:') != 0
@@ -63,7 +63,7 @@ function UpdateTime()
 endfunction
 :autocmd FileWritePre,BufWritePre *.py ks | call UpdateTime() | 's
 
-"F5运行python
+"F5运行python脚本
 map <F5> :w<CR> : call RunPython()<CR>
 function RunPython()
       let mp = &makeprg
@@ -76,3 +76,12 @@ function RunPython()
       let &makeprg = mp
       let &errorformat = ef
 endfunction
+
+" 当光标一段时间保持不动了，就禁用高亮
+autocmd cursorhold * set nohlsearch
+" 当输入查找命令时，再启用高亮
+noremap n :set hlsearch<cr>n
+noremap N :set hlsearch<cr>N
+noremap / :set hlsearch<cr>/
+noremap ? :set hlsearch<cr>?
+noremap * *:set hlsearch<cr>

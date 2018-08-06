@@ -1,9 +1,7 @@
-!*.gitignore
-!*.gitkeep
-
-*.pyc
-
-!config/sys_env/*
-
 libs/*
 projects/test
+!config/sys_env/*
+
+!*.gitignore
+!*.gitkeep
+*.pyc

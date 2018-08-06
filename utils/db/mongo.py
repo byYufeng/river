@@ -17,7 +17,7 @@ class Mongo(object):
         # connect mongo_client
         # 由于mongo客户端本身是个连接池 所以直接返回client是更好的选择
         mongo_host, mongo_port, mongo_user, mongo_pass = \
-            config['host'], config['port'], config['username'], config['password']
+            config['host'], int(config['port']), config['username'], config['password']
         self.conn = pymongo.MongoClient(mongo_host, mongo_port)
         #self.conn = pymongo.MongoClient("mongodb://%s:%s@%s:%s" % (mongo_user, mongo_pass, mongo_host, mongo_port))
         if mongo_user and mongo_pass:

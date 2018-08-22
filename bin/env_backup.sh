@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cp ~/.bashrc \
    ~/.bash_profile \
    ~/.vimrc \

@@ -3,7 +3,7 @@
 """
 Author: fsrm
 Create Time: 2018-08-14 12:19:29
-Last modify: 2018-09-03 12:10:12
+Last modify: 2018-09-03 18:00:55
 """
 
 import sys
@@ -37,6 +37,21 @@ class REDIS_CLIENT():
     def delete(self, k):
         return self.redis_client.delete(k)
 
+    # batch [[[set], ['name', 'b']], [['set'], ['age', '23']]]
+    def batch(self, operations):
+        with self.redis_client.pipeline(transaction=False) as p:
+            for operation in operations:
+                #print operation
+                handle = operation[0][0]
+                k = operation[1][0]
+                if len(operation[1]) > 1:
+                    v = operation[1][1]
+
+                if handle == 'set':
+                    p.set(k, v)
+                if handle == 'delete':
+                    p.delete(k)
+            p.execute()
 
 def main():
     redis_config = {
@@ -45,14 +60,23 @@ def main():
         'db': 0,
         'connections':100
     }
-    
+
+
     redis_client = REDIS_CLIENT(redis_config)
     redis_client.set('name', 'laozhang')
     print redis_client.get('name')
     print redis_client.delete('name')
     print redis_client.get('name')
 
+    _batch = [
+        [['set'], ['name', 'bbb']],
+        [['set'], ['age', '26']],
+        [['set'], ['addr', 'jjjjjj']],
+        [['delete'], ['addr']],
+    ]
+    redis_client.batch(_batch)
+    return
+
 
 if __name__ == "__main__":
     main()
-

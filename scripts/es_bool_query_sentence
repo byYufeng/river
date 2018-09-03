@@ -1,0 +1,24 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "source": "tracedb_scribe"
+          }
+        },
+        {
+          "exists": {
+            "field": "filetype"
+          }
+        }
+      ],
+      "must_not": [        
+      ],
+      "should": [],
+      "minimum_should_match": 0,
+      "boost": 1
+    }
+  },
+  "_source": ["filetype"]
+}

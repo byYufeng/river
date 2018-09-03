@@ -1,11 +1,8 @@
+# .bashrc
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
-fi
-
-# Source 
-if [ -f ~/.bash_profile ]; then
-	. ~/.bash_profile
 fi
 
 alias ll='ls -lh --color=auto'

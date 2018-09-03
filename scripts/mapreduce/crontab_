@@ -1,0 +1,1 @@
+0 8 * * * /bin/bash ${HOME}/path/daily_submit.sh

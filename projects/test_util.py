@@ -3,14 +3,14 @@
 """
 Author: fsrm
 Create Time: 2018-08-31 19:35:21
-Last modify: 2018-09-03 12:27:39
+Last modify: 2018-09-03 16:14:02
 """
 
 
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
-sys.path.append('../libs/pylibs')
+sys.path.append('../libs/py')
 sys.path.append('..')
 
 
@@ -19,7 +19,7 @@ import traceback, json
 
 
 def test_mongo():
-    from utils.db.mongo import Mongo
+    from utils.db._mongo import Mongo
     conf_local = { 
         'host':'localhost',
         'port':27017,
@@ -39,8 +39,8 @@ def test_mongo():
 
 
 def test_mq():
-    from utils.middleware.rabbitmq import RMQ_PRODUCER
-    from utils.middleware.rabbitmq import RMQ_CONSUMER
+    from utils.middleware._rabbitmq import RMQ_PRODUCER
+    from utils.middleware._rabbitmq import RMQ_CONSUMER
     
     rmq_config = { 
         'host' : '127.0.0.1',
@@ -64,7 +64,7 @@ def test_mq():
 
 
 def test_redis():
-    from utils.db.redis import REDIS_CLIENT
+    from utils.db._redis import REDIS_CLIENT
     redis_config = { 
         'host':'127.0.0.1',
         'port':9221,

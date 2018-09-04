@@ -3,7 +3,7 @@
 """
 Author: fsrm
 Create Time: 2018-08-31 19:35:21
-Last modify: 2018-09-03 16:14:02
+Last modify: 2018-09-04 17:06:47
 """
 
 
@@ -79,7 +79,19 @@ def test_redis():
     print redis_client.get('name') 
 
 
+def test_batch():
+    from utils.common import batch
+    l = [x for x in range(95)] 
+
+    def printt(data):
+        print data
+
+    batch(printt, l, 10)
+    #batch(printt, sys.stdin, 10)
+
+
 def main():
+    test_batch()
     test_redis()
 
 

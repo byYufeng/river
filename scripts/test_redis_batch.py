@@ -3,7 +3,7 @@
 """
 Author: fsrm
 Create Time: 2018-08-31 19:35:21
-Last modify: 2018-09-03 17:58:44
+Last modify: 2018-09-04 17:08:29
 """
 
 
@@ -20,6 +20,7 @@ import traceback, json
 
 def test_redis():
     from utils.db._redis import REDIS_CLIENT
+    from utils.common import batch
     redis_config = { 
         'host':'127.0.0.1',
         'port':9221,
@@ -34,7 +35,9 @@ def test_redis():
         [['set'], ['addr', 'jjjjjj']],
         [['delete'], ['addr']],
     ]
-    redis_client.batch(l)
+
+    #redis_client.batch(l)
+    batch(redis_client.batch, l, 3)
     return
 
     redis_client.set('name', 'laozhang')

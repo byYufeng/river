@@ -45,6 +45,20 @@ def readin():
             line = line.strip()
             func(line)
 
+# 批量处理数据 data: iteraotr or stdin
+def batch(func, data, size):
+    cnt = 0 
+    temp_data_list = []
+    for _data in data:
+        temp_data_list.append(_data)
+        cnt += 1
+    
+        if cnt % size == 0:
+            func(temp_data_list)
+            temp_data_list = []
+
+    if len(temp_data_list) > 0:
+        func(temp_data_list)
 
 
 class Utils(object):
@@ -73,7 +87,7 @@ class Utils(object):
         logger.addHandler(ch)
         return logger
 
-    #时间转换
+    # 时间转换
     def timestamp_to_formatter_string(self, timestamp, formatter=''):
         formatter = self.ISOTIMEFORMAT if not formatter else formatter
         return time.strftime(formatter, time.localtime(timestamp))
@@ -83,7 +97,7 @@ class Utils(object):
         return time.mktime(time.strptime(formatter_string, formatter))
 
 
-    #正则
+    # 正则
     def regex_rule():
         regex_dic = { 
                     'ip' : re.compile(r'(?<![\.\d])(?:\d{1,3}\.){3}\d{1,3}(?![\.\d])(:\d{4})?'),

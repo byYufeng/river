@@ -5,3 +5,4 @@ projects/test
 !*.gitignore
 !*.gitkeep
 *.pyc
+*.sw*

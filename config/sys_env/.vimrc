@@ -7,17 +7,22 @@ set number
 set ruler
 set ls=2
 
-"粘贴模式
-set paste
-autocmd InsertEnter * setlocal paste
-autocmd InsertLeave * setlocal nopaste
+"set background=dark
 
 "检测文件类型并根据类型自动缩进 使用空格代替tab shiftwidth自动缩进宽度 tabstop空格数量 删除tab时删除空格数量
 filetype indent on
 set expandtab
-set sw=4
-set ts=4
-set sts=4
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+
+"set smartindent
+"set showmatch
+
+"粘贴模式
+set paste
+autocmd InsertEnter * setlocal paste
+autocmd InsertLeave * setlocal nopaste
 
 
 "根据缓冲区文件，自动生成模板和更新代码

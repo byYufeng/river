@@ -10,6 +10,8 @@ alias mv='mv -i'
 alias vim_none='vim -u NONE'
 alias free='free -h'
 
+alias googler='proxychains4 googler'
+
 alias im="python ~/scripts/mojo_im.py "
 alias qq="python ~/scripts/mojo_im.py qq"
 alias wx="python ~/scripts/mojo_im.py wx"

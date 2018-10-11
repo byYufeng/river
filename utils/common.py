@@ -4,10 +4,51 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-import os
+import os, time
+import traceback, json
+import multiprocessing
+
 import logging
 from logging.handlers import RotatingFileHandler
-import time
+
+
+def single_process(func, params):
+    results = []
+    for param in params:
+        results.append(apply(func, [param]))
+    return results
+
+
+def multi_sync(func, params, process_num):
+    pool = multiprocessing.Pool(processes=process_num)
+    results = []
+    for param in params:
+        if param != None:
+            results.append(pool.apply(func, [param]))
+        else:
+            results.append(pool.apply(func))
+    pool.close()
+    pool.join()
+
+    return results
+
+
+def multi_async(func, params, process_num):
+    pool = multiprocessing.Pool(processes=process_num)
+    results = []
+    for param in params:
+        if param != None:
+            results.append(pool.apply_async(func, [param]))
+        else:
+            results.append(pool.apply_async(func))
+    pool.close()
+    pool.join()
+
+    #异步并发时需要通过get拿到返回结果
+    #print results
+    results = [res.get() for res in results]
+    return results
+
 
 #一个value为list的dict
 class Dlist(dict):
@@ -29,6 +70,7 @@ def Singleton(cls, *args, **kwargs):
         return instances[cls]
     return wrapper
 
+
 #装饰器：try catch
 def trycatch(cls, *args, **kwargs):
     def wrapper():
@@ -38,12 +80,14 @@ def trycatch(cls, *args, **kwargs):
             pass
     return wrapper()
 
+
 #逐行处理文件
 def readin():
     with open(f) as fin:
         for line in fin:
             line = line.strip()
             func(line)
+
 
 # 批量处理数据 data: iteraotr or stdin
 def batch(func, data, size):
@@ -104,3 +148,4 @@ class Utils(object):
                     'url' : re.compile('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]')
                     }  
         return regex_dic
+

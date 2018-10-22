@@ -67,7 +67,7 @@ function UpdateTime()
         call setline(line, 'Last modify: ' . strftime('%Y-%m-%d %H:%M:%S'))
     endif
 endfunction
-:autocmd FileWritePre,BufWritePre *.py ks | call UpdateTime() | 's
+":autocmd FileWritePre,BufWritePre *.py ks | call UpdateTime() | 's
 
 "F5运行python脚本
 map <F5> :w<CR> : call RunPython()<CR>

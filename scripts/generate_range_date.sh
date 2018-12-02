@@ -7,6 +7,6 @@ date2=`date -d "+0 day $2" +$date_format`
 #echo "------------------------------"
 while [[ $date1 > $date2  ]]
 do
-    echo "bash run.sh $date1"
+    echo "sh spark_submit.sh $date1"
     date1=`date -d "-1 day $date1" +$date_format`
 done

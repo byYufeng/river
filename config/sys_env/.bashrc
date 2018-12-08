@@ -9,6 +9,7 @@ fi
 alias ll='ls -lh --color=auto'
 alias lla='ls -lha --color=auto'
 alias mv='mv -i'
+alias cp='cp -i'
 alias rm='trash'
 alias free='free -h'
 alias vim_none='vim -u NONE'

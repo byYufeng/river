@@ -29,6 +29,7 @@
 - 总结
     - 在声明queue时设置duable=True即可实现消息的存储（produce时consumer不必在线）
     - exchange 共有fanout direct topic 三种模式,一切通信都是直接从queue中、或间接的通过exchange-queue的途径获取消息
+    - 如果不绑定(exchange-queue-routing_key) 则相当于绑定到默认的exchange上,routing_key即为queue_name。
     - 这个rpc会锁定queue，所以不支持并发。。。怎么解决后续再研究吧
     - 官网拉的这个镜像把所有端口都映射了也没法在容器外访问。。。很烦 只能把代码目录挂载进去然后用个python容器link到rabbitmq容器再运行代码。后续再看看怎么解决把。更烦了。。。
         --已解决 原来是host没写对 写成镜像的名称了 改成localhost就好 妈的 真是智障 

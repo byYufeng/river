@@ -16,14 +16,18 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 
+"设置粘贴模式 似乎容易由于冲突而不生效并导致语法缩进异常 此处改为键盘映射更为方便
+"set paste
+"autocmd InsertEnter * setlocal paste
+"autocmd InsertLeave * setlocal nopaste
+"
 "set smartindent
 "set showmatch
 
-"粘贴模式
-set paste
-autocmd InsertEnter * setlocal paste
-autocmd InsertLeave * setlocal nopaste
 
+" 键盘映射: 快捷键后记得加空格 否则不生效
+map <F9> :set nu!<CR>
+map <F10> :set paste!<CR>
 
 "根据缓冲区文件，自动生成模板和更新代码
 func SetComment()

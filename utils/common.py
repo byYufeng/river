@@ -12,6 +12,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 
+# 单进程遍历执行
 def single_process(func, params):
     results = []
     for param in params:
@@ -19,6 +20,7 @@ def single_process(func, params):
     return results
 
 
+# 多进程同步执行
 def multi_sync(func, params, process_num):
     pool = multiprocessing.Pool(processes=process_num)
     results = []
@@ -33,6 +35,7 @@ def multi_sync(func, params, process_num):
     return results
 
 
+# 多进程异步执行
 def multi_async(func, params, process_num):
     pool = multiprocessing.Pool(processes=process_num)
     results = []
@@ -103,6 +106,12 @@ def batch(func, data, size):
 
     if len(temp_data_list) > 0:
         func(temp_data_list)
+
+
+# 处理json.dumps()中datetime无法直接转换的问题
+def date_timeconverter(o):
+    if isinstance(o, datetime.datetime):
+            return o.__str__()
 
 
 class Utils(object):

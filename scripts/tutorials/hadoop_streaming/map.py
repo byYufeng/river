@@ -2,7 +2,7 @@
 #coding:utf-8
 """
 Create Time: 2018-06-13 17:32:01
-Last modify: 2018-06-14 16:28:21
+Last modify: 2018-12-08 20:34:08
 """
 
 import os
@@ -15,17 +15,13 @@ import time, json, traceback
 
 def main():
     for line in sys.stdin:
-        line = line.strip()
-        cols = line.split('\t', 1)
-        k, v = cols[0], cols[1]
-        print('%s\t%s' % (k, v))
+        input_line = line.strip()
+        deal(input_line)
+
+
+def deal(input_line):
+    print(input_line)
 
 
 if __name__ == "__main__":
     main()
-
-    try:
-        pass
-    except Exception, e:
-        ex = traceback.format_exc()
-        sys.err.write(ex)

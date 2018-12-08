@@ -13,8 +13,7 @@ else
 fi
 
 cd ~/riven
-git add *
-git add -A
+git add * -A
 git status
 git commit -m "$message"
 git push origin master

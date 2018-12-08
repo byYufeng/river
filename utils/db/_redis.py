@@ -3,7 +3,7 @@
 """
 Author: fsrm
 Create Time: 2018-08-14 12:19:29
-Last modify: 2018-09-03 18:00:55
+Last modify: 2018-12-08 21:00:52
 """
 
 import sys
@@ -23,6 +23,7 @@ class REDIS_CLIENT():
                                                         max_connections=config['connections'],
                                                         host=config['host'],
                                                         port=config['port'],
+                                                        password=config['password'],
                                                         db=config['db'])
                             )
 

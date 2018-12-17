@@ -14,7 +14,7 @@ import os, time
 import traceback, json
 
 def main():
-    with open('todo') as fin:
+    with open('es_bool_query_sentence') as fin:
         for info in enumerate(fin):
             print info 
 

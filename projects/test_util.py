@@ -3,9 +3,8 @@
 """
 Author: fsrm
 Create Time: 2018-08-31 19:35:21
-Last modify: 2018-09-04 17:06:47
+Last modify: 2018-12-09 02:54:02
 """
-
 
 import sys
 reload(sys)
@@ -18,26 +17,6 @@ import os, time
 import traceback, json
 
 
-def test_mongo():
-    from utils.db._mongo import Mongo
-    conf_local = { 
-        'host':'localhost',
-        'port':27017,
-        'username':None,
-        'password':None,
-    }   
-    mongo_client_local = Mongo(conf_local)
-#   res = mongo_client_local.conn['test']['test'].find({})
-
-    print mongo_client_local.get_db_names()
-    print mongo_client_local.get_coll_names('local')
-
-    res = mongo_client_local.find('local', 'startup_log', {}) 
-    print res.count()
-    for result in res:
-        print result
-
-
 def test_mq():
     from utils.middleware._rabbitmq import RMQ_PRODUCER
     from utils.middleware._rabbitmq import RMQ_CONSUMER
@@ -45,9 +24,9 @@ def test_mq():
     rmq_config = { 
         'host' : '127.0.0.1',
         'port' : '5672', 
-        'user' : 'guest', 
-        'passwd' : 'guest',
-        'p1' : '/',
+        'username' : 'guest', 
+        'password' : 'guest',
+        'vhost' : '/',
         'exchange_name' : '', 
         'exchange_type' : '', 
         'queue_name' : 'fsrm_test',
@@ -79,6 +58,26 @@ def test_redis():
     print redis_client.get('name') 
 
 
+def test_mongo():
+    from utils.db._mongo import Mongo
+    conf_local = { 
+        'host':'localhost',
+        'port':27017,
+        'username':None,
+        'password':None,
+    }   
+    mongo_client_local = Mongo(conf_local)
+#   res = mongo_client_local.conn['test']['test'].find({})
+
+    print mongo_client_local.get_db_names()
+    print mongo_client_local.get_coll_names('local')
+
+    res = mongo_client_local.find('local', 'startup_log', {}) 
+    print res.count()
+    for result in res:
+        print result
+
+
 def test_batch():
     from utils.common import batch
     l = [x for x in range(95)] 
@@ -92,7 +91,7 @@ def test_batch():
 
 def main():
     test_batch()
-    test_redis()
+    #test_redis()
 
 
 if __name__ == "__main__":

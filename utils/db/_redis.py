@@ -3,7 +3,7 @@
 """
 Author: fsrm
 Create Time: 2018-08-14 12:19:29
-Last modify: 2018-09-03 18:00:55
+Last modify: 2018-12-09 02:52:33
 """
 
 import sys
@@ -20,10 +20,12 @@ class REDIS_CLIENT():
         self.redis_client = redis.Redis(
                                 #connection_pool=redis.BlockingConnectionPool(
                                 connection_pool=redis.ConnectionPool(
-                                                        max_connections=config['connections'],
                                                         host=config['host'],
-                                                        port=config['port'],
-                                                        db=config['db'])
+                                                        password=config.get('password', ''),
+                                                        port=int(config.get('port', 6379)),
+                                                        db=config['db'],
+                                                        max_connections=int(config.get('connections', 100))
+                                                        )
                             )
 
 

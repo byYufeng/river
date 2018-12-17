@@ -5,28 +5,46 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# sys alias
 alias ll='ls -lh --color=auto'
+alias lla='ls -lha --color=auto'
 alias mv='mv -i'
-alias vim_none='vim -u NONE'
+alias cp='cp -i'
+alias rm='trash'
 alias free='free -h'
+alias vim_none='vim -u NONE'
 
+# hadoop alias
+alias hdfs='hadoop fs'
+alias hls='hadoop fs -ls'
+alias hcat='hadoop fs -cat'
+alias htext='hadoop fs -text'
+alias hdu='hadoop fs -du -h'
+alias hrm='hadoop fs -rm -r -f'
+
+alias yls='yarn application -list'
+alias ykill='yarn application -kill'
+
+alias hhome='hadoop fs -ls ~'
+alias pyspark='~/libs/spark-2.2.0-bin-hadoop2.6/bin/pyspark'
+
+# User specific aliases and functions
 alias googler='proxychains4 googler'
 
 alias im="python ~/scripts/mojo_im.py "
 alias qq="python ~/scripts/mojo_im.py qq"
 alias wx="python ~/scripts/mojo_im.py wx"
 alias ttt="python ~/scripts/mojo_im.py qq printt | tail -7 | head -5"
-alias tt="python ~/scripts/mojo_im.py qq send uid 1873181129 "
+alias tt="python ~/scripts/mojo_im.py qq send uid "
 
 #replace rm of mv
-alias rm='trash'
 trash()
 {
     # I quote this path last time and suffers a lot...
     #if [ ! -d ~/.trash ]; then
     #    mkdir ~/.trash
     #fi 
-    timestamp=`date +%Y%m%dT%H%M`
+    timestamp=`date +%Y%m%d_%H%M`
     mkdir -p ~/.trash/$timestamp
     mv $@ ~/.trash/$timestamp/
 }
@@ -34,10 +52,9 @@ trash()
 #alias nohup='nohupp'
 nohupp(){
     pwd
-    /usr/bin/nohup ./$1 > $1.out 2>&1 &
+    /usr/bin/nohup ./$1 1>$1.out 2>$1.err &
 }
 
-# User specific aliases and functions
 # alias riven_commit='cd ~/riven && bin/commit_git.sh $1 && cd -'
 riven_commit(){
     cd ~/riven && ./bin/commit_git.sh $1
@@ -46,7 +63,6 @@ riven_commit(){
 
 #disable generate .pyc
 export PYTHONDONTWRITEBYTECODE=x
-
 
 #download and upload files like scp
 #but...The folder name always strange when use dl

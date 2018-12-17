@@ -3,7 +3,7 @@
 """
 Author: fsrm
 Create Time: 2018-08-13 19:31:27
-Last modify: 2018-08-31 19:45:11
+Last modify: 2018-12-09 02:42:10
 """
 
 import os
@@ -18,12 +18,12 @@ class RMQ_CLIENT():
     def __init__(self, config): 
         host = config.get('host', '')
         port = config.get('port', '') 
-        user = config.get('user', '') 
-        passwd = config.get('passwd', '')
-        p1 = config.get('', '/')
+        user = config.get('username', '') 
+        passwd = config.get('password', '')
+        vhost = config.get('', '/')
 
-        exchange_name = config.get('exchange_name', '')
-        exchange_type = config.get('exchange_type', '')
+        exchange_name = config.get('exchange_name', 'default')
+        exchange_type = config.get('exchange_type', 'topic')
         queue_name = config.get('queue_name', '')
         routing_key = config.get('routing_key', '')
 
@@ -32,13 +32,13 @@ class RMQ_CLIENT():
         except:
             port = 5672
 
-        self.init_conn(host, port, user, passwd, p1)
+        self.init_conn(host, port, user, passwd, vhost)
         self.init_channel(exchange_name, exchange_type, queue_name, routing_key)
 
 
-    def init_conn(self, host, port, user, passwd, p1):
+    def init_conn(self, host, port, user, passwd, vhost):
         credentials = pika.PlainCredentials(user, passwd)
-        parameters = pika.ConnectionParameters(host, port, p1, credentials)
+        parameters = pika.ConnectionParameters(host, port, vhost, credentials, heartbeat_interval=0)
         self.rmq_conn = pika.BlockingConnection(parameters)
         
 
@@ -49,9 +49,12 @@ class RMQ_CLIENT():
         self.routing_key = routing_key
 
         self.channel = self.rmq_conn.channel()
-        #channel.exchange_declare(exchange=exchange_name, exchange_type=exchange_type, durable=True)
         self.channel.queue_declare(queue=queue_name, durable=True, auto_delete=False) #持久化队列
-        #channel.queue_bind(exchange=exchange_name, queue=queue_name, routing_key=routing_key)
+
+        # 如果不绑定routing-key和queue 则自动在默认的exchange上绑定与routing-key同名的queue。若不存在routing_key同名的queue 则信息丢失
+        if exchange_name and exchange_type:
+            self.channel.exchange_declare(exchange=exchange_name, exchange_type=exchange_type, durable=True)
+            self.channel.queue_bind(exchange=exchange_name, queue=queue_name, routing_key=routing_key)
 
 
 class RMQ_PRODUCER(RMQ_CLIENT):
@@ -61,6 +64,7 @@ class RMQ_PRODUCER(RMQ_CLIENT):
                                     body=message, 
                                     properties=pika.BasicProperties(delivery_mode=2) #持久化消息
                                     )
+
 
 
 class RMQ_CONSUMER(RMQ_CLIENT):

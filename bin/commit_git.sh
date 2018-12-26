@@ -3,7 +3,7 @@
 #find. -type d -empty -exec touch {}/.gitignore \; #make sure to commit empty folder
 
 
-sh ~/riven/bin/env_backup.sh
+#sh ~/riven/bin/env_backup.sh
 
 #add comment
 if [ -n "$1" ]; then

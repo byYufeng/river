@@ -50,15 +50,17 @@ func SetComment()
         call append(12, 'import os, time')
         call append(13, 'import traceback, json')
         call append(14, '')
-        call append(15, 'def main():')
-        call append(16, '     ')
-        call append(17, '')
-        call append(18, 'if __name__ == "__main__":')
-        call append(19, '    main()')
+        call append(15, '')
+        call append(16, 'def main():')
+        call append(17, '     ')
+        call append(18, '')
+        call append(19, '')
+        call append(20, 'if __name__ == "__main__":')
+        call append(21, '    main()')
     endif
 endfunc
 autocmd BufNewFile *.sh exec ":call SetComment()" | normal 4G
-autocmd BufNewFile *.py exec ":call SetComment()" | normal 17G
+autocmd BufNewFile *.py exec ":call SetComment()" | normal 18G
 
 "自动维护修改时间
 function UpdateTime()

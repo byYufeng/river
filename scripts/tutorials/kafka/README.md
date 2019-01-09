@@ -18,7 +18,7 @@
 ? 可以只指定key而不指定value。文档中说是视为'delete' 是指什么意思？ 是忽略掉？还是删掉旧文件 还是什么？
 
 ** process:
-N台机器(N=3) partition数量默认可以设为(预估消费者数量M) [M/N]*N 
+N台机器(N=3) partition数量默认可以设为(预估消费者数量M) [M/N]*N  ==> M=6or9
 
 方案1：
     每种任务一个topic，以日期为key，写到指定partition中

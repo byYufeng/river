@@ -17,10 +17,12 @@ alias vim_none='vim -u NONE'
 # hadoop alias
 alias hdfs='hadoop fs'
 alias hls='hadoop fs -ls'
+alias hget='hadoop fs -get'
 alias hcat='hadoop fs -cat'
 alias htext='hadoop fs -text'
 alias hdu='hadoop fs -du -h'
 alias hrm='hadoop fs -rm -r -f'
+alias hmk='hadoop fs -mkdir'
 
 alias yls='yarn application -list'
 alias ykill='yarn application -kill'
@@ -100,3 +102,4 @@ if which tmux 2>&1 >/dev/null; then
     test -z "$TMUX" && (tmux attach || tmux_init)
 fi
 }
+tmux_auto_attach

@@ -20,7 +20,10 @@ source ~/.bashrc
 # execute 
 mkdir -p ${logs_path}
 cd ${cwd_path}
-rm ${logs_path}/${log_prefix}*
+if [ -a "${logs_path}/${log_prefix}*" ]; then
+    rm ${logs_path}/${log_prefix}*
+fi
+echo "Data date: $data_date"
 sh submit.sh ${data_date} 1>${logs_path}/${log_prefix}.out 2>${logs_path}/${log_prefix}.err
 
 # check submit state & create ERROR FILE LOG

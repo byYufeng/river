@@ -14,6 +14,7 @@ import time, json, traceback
 
 
 def main():
+    data_date = os.getenv('DATA_DATE')
     for line in sys.stdin:
         input_line = line.strip()
         deal(input_line)

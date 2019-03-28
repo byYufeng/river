@@ -27,3 +27,10 @@ hadoop streaming \
     -file reduce.py \
     -mapper 'python map.py' \
     -reducer 'python reduce.py'
+
+if [[ $? -ne 0 ]]; then
+    echo "$JOB_NAME failed"
+    exit 1
+else
+    echo "$JOB_NAME finished"
+fi

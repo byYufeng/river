@@ -12,7 +12,7 @@ sys.setdefaultencoding("utf-8")
 sys.path.append('./kafka-python-1.4.4')
 
 import os, time
-from kafka import KafkaProducer, KafkaConsumer 
+from kafka import KafkaProducer, KafkaConsumer
 
 
 def main():

@@ -9,7 +9,6 @@ Last modify: 2018-12-24 16:00:02
 import sys 
 reload(sys)
 sys.setdefaultencoding("utf-8")
-sys.path.append('./kafka-python-1.4.4')
 
 import os, time, json
 from kafka import KafkaProducer, KafkaConsumer, TopicPartition
@@ -43,18 +42,10 @@ def main():
             end = consumer.end_offsets([partition]).values()[0]
             partition_offsets[partition.partition] = {'start':start, 'end':end}
         all_partition_offsets[topic] = partition_offsets
-    print 'All partition offsets:\n\n%s' % all_partition_offsets
 
-    #print 'Subscription:', consumer.subscription()
-    #print 'Assignment:', consumer.assignment()
-    #print 'Metrics:', consumer.metrics()
-
-    #consumer.subscribe([])
-    #consumer.assign([])
-    #for msg in consumer:
-    #    print msg
-    #print next(consumer)
-    #print consumer.poll()
+    print 'All partition offsets:\n'
+    for k in all_partition_offsets:
+        print k, all_partition_offsets.get(k), '\n'
 
 
 if __name__ == "__main__":

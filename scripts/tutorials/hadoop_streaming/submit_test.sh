@@ -35,3 +35,9 @@ hadoop jar $local_hadoop_streaming_jar_path \
     -mapper 'python2.7 map.py' \
     -reducer 'python2.7 reduce.py'
 
+if [[ $? -ne 0 ]]; then
+    echo "$JOB_NAME failed"
+    exit 1
+else
+    echo "$JOB_NAME finished"
+fi

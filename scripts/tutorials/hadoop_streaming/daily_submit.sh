@@ -20,7 +20,7 @@ source ~/.bashrc
 # execute 
 mkdir -p ${logs_path}
 cd ${cwd_path}
-if [ -a "${logs_path}/${log_prefix}*" ]; then
+if [ -a "${logs_path}/${log_prefix}.out" ]; then
     rm ${logs_path}/${log_prefix}*
 fi
 echo "Data date: $data_date"
@@ -28,5 +28,7 @@ sh submit.sh ${data_date} 1>${logs_path}/${log_prefix}.out 2>${logs_path}/${log_
 
 # check submit state & create ERROR FILE LOG
 if [[ $? -ne 0 ]]; then
-    cp ${logs_path}/${data_date}.err ${logs_path}/${log_prefix}_ERROR
+    cat ${logs_path}/${data_date}.* > ${logs_path}/${log_prefix}_ERROR
+    echo -e "\nTrace url:\c" >> ${logs_path}/${log_prefix}_ERROR
+    cat ${logs_path}/${data_date}.err | grep url | awk -F'http' '{print "http"$2}' >> ${logs_path}/${log_prefix}_ERROR
 fi

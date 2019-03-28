@@ -9,7 +9,6 @@ Last modify: 2018-12-24 16:00:02
 import sys 
 reload(sys)
 sys.setdefaultencoding("utf-8")
-sys.path.append('./kafka-python-1.4.4')
 
 import os, time
 from kafka import KafkaProducer, KafkaConsumer 

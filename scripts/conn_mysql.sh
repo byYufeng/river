@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mysql_path=''
+
 host=''
 port=''
 username=''

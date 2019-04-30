@@ -5,3 +5,4 @@ libs/*
 !config/sys_env/*
 !*.gitignore
 !*.gitkeep
+projects/*

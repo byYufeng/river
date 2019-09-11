@@ -15,13 +15,16 @@ import time, json, traceback
 
 def main():
     data_date = os.getenv('DATA_DATE')
-    for line in sys.stdin:
-        input_line = line.strip()
-        deal(input_line)
+
+    for input_line in sys.stdin:
+        line = input_line.strip()
+        deal(line)
 
 
-def deal(input_line):
-    print(input_line)
+def deal(line):
+    k = ''
+    v = ''
+    print('%s\t%s' % (k, v))
 
 
 if __name__ == "__main__":

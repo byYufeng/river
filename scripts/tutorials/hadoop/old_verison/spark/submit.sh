@@ -11,14 +11,6 @@ memory_storageFraction=0.5
 let parallelism=${num_executors}*${executor_cores}*3
 
 echo $job_name
-#echo "num_executors is ${num_executors}"
-#echo "executor_memory is ${executor_memory}"
-#echo "driver_memory is ${driver_memory}"
-#echo "executor_cores is ${executor_cores}"
-#echo "memory_fraction is ${memory_fraction}"
-#echo "memory_storageFraction is ${memory_storageFraction}"
-#echo "executorcores is ${executor_cores}"
-#echo "parallelism is ${parallelism}"
 
 local_path=""
 spark_log_dir=$local_path/logs/spark

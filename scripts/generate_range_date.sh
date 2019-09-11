@@ -4,7 +4,7 @@ date_format2='%Y%m%d'
 
 cmd='sh submit.sh'
 
-# judge date & cmd format
+# auto judge date & cmd format
 if [ "`echo $1 | grep -E '[0-9]{4}-[0-9]{2}-[0-9]{2}'`" != "" -a "`echo $2 | grep -E '[0-9]{4}-[0-9]{2}-[0-9]{2}'`" != "" ]
 then 
     date_format=$date_format1

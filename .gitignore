@@ -1,8 +1,9 @@
-libs/*
-
-*.pyc
-*.sw*
-!config/sys_env/*
 !*.gitignore
 !*.gitkeep
+
+*.sw*
+*.pyc
+
+libs/*
 projects/*
+!config/sys_env/*

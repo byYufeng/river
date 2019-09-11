@@ -1,4 +1,4 @@
 input=$1
-mapper=$2
-reducer=$3
+mapper=map.py
+reducer=reduce.py
 cat $input | python $mapper | sort | python $reducer

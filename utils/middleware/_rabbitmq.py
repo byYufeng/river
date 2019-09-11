@@ -14,18 +14,19 @@ sys.path.append(os.getcwd())
 
 import pika
 
+
 class RMQ_CLIENT():
     def __init__(self, config): 
-        host = config.get('host', '')
-        port = config.get('port', '') 
+        host = config.get('host', '127.0.0.1')
+        port = config.get('port', '5672') 
         user = config.get('username', '') 
         passwd = config.get('password', '')
-        vhost = config.get('', '/')
+        vhost = config.get('vhost', '/')
 
-        exchange_name = config.get('exchange_name', 'default')
-        exchange_type = config.get('exchange_type', 'topic')
-        queue_name = config.get('queue_name', '')
-        routing_key = config.get('routing_key', '')
+        exchange_name = config.get('exchange_name', 'fsrm_default_exchange')
+        exchange_type = config.get('exchange_type', 'direct')
+        queue_name = config.get('queue_name', 'fsrm_default_queue')
+        routing_key = config.get('routing_key', '#')
 
         try:
             port = int(port)
@@ -58,17 +59,16 @@ class RMQ_CLIENT():
 
 
 class RMQ_PRODUCER(RMQ_CLIENT):
-    def publish(self, message):
+    def publish(self, message, headers={}):
         self.channel.basic_publish(exchange=self.exchange_name, 
                                     routing_key=self.routing_key, 
                                     body=message, 
-                                    properties=pika.BasicProperties(delivery_mode=2) #持久化消息
+                                    properties=pika.BasicProperties(delivery_mode=2, headers=headers) #持久化消息
                                     )
 
 
-
 class RMQ_CONSUMER(RMQ_CLIENT):
-    def consume(self, callback_func):
+    def consume(self, callback_func=default_callback):
 
         def callback(ch, method, properties, body):
             callback_func(body)
@@ -78,21 +78,22 @@ class RMQ_CONSUMER(RMQ_CLIENT):
         self.channel.basic_consume(callback, queue=self.queue_name, no_ack=False) #确认消费正常完成，否则转发给其他消费者
         self.channel.start_consuming()
 
+    def default_callback(msg):
+        print msg
 
-if __name__ == "__main__":
 
+def main():
     from config import *
-
-    rmq_config = rmq_config_filees06
-    rmq_config = rmq_config_k6204v
-
+    rmq_config = rmq_config_local
     rmq_producer = RMQ_PRODUCER(rmq_config)
-    #rmq_producer.publish('hahaha\t gogogo')
+    rmq_producer.publish('hahaha\t gogogo')
 
     #rmq_producer.channel.queue_delete(queue='fsrm_test')
     #sys.exit(0)
 
     rmq_consumer = RMQ_CONSUMER(rmq_config)
-    def callback(msg):
-        print msg
-    rmq_consumer.consume(callback)
+    rmq_consumer.consume()
+
+
+if __name__ == "__main__":
+    main()

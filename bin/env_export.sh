@@ -2,4 +2,4 @@
 
 cp ~/.bashrc \
    ~/.vimrc \
-   ~/riven/config/sys_env
+   ~/riven/config/sys_config_rc

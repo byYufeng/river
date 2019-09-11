@@ -4,31 +4,42 @@
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
+stty -ixon
 
 # sys alias
+alias yum='sudo yum'
 alias ll='ls -lh --color=auto'
-alias lla='ls -lha --color=auto'
+alias la='ls -A --color=auto'
+alias lla='ls -lhA --color=auto'
 alias mv='mv -i'
 alias cp='cp -i'
 alias rm='trash'
 alias free='free -h'
+alias dud='du -h --max-depth=1'
 alias vim_none='vim -u NONE'
 
 # hadoop alias
 alias hdfs='hadoop fs'
 alias hls='hadoop fs -ls'
 alias hget='hadoop fs -get'
+alias hput='hadoop fs -put'
 alias hcat='hadoop fs -cat'
 alias htext='hadoop fs -text'
 alias hdu='hadoop fs -du -h'
+alias hdus='hadoop fs -du -h -s'
 alias hrm='hadoop fs -rm -r -f'
 alias hmk='hadoop fs -mkdir'
+htree(){
+    hadoop fs -ls -R $1 | awk '{print $8}' | sed -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+}
 
 alias yls='yarn application -list'
+alias ylsm="yarn application -list | grep `whoami`"
+alias ylogs="yarn logs -applicationId"
 alias ykill='yarn application -kill'
 
 alias hhome='hadoop fs -ls ~'
-alias pyspark='~/libs/spark-2.2.0-bin-hadoop2.6/bin/pyspark'
+alias pyspark='~/libs/spark/bin/pyspark'
 
 # User specific aliases and functions
 alias googler='proxychains4 googler'
@@ -55,6 +66,23 @@ trash()
 nohupp(){
     pwd
     /usr/bin/nohup ./$1 1>$1.out 2>$1.err &
+}
+
+#hide file
+hide(){
+    mv $1 .$1
+}
+
+##docker
+
+# exec-attach $container_name
+da(){
+    docker exec -it $1 sh -c "cd && sh"
+}
+
+# run $image_name $container_name
+dr(){
+    docker run -itd --name $2 $1 sh
 }
 
 # alias riven_commit='cd ~/riven && bin/commit_git.sh $1 && cd -'
@@ -103,3 +131,7 @@ if which tmux 2>&1 >/dev/null; then
 fi
 }
 tmux_auto_attach
+
+dnf(){
+    da dnf_server
+}

@@ -38,7 +38,7 @@ def parse(query_str, html):
             print(i)
         #log = '%s\t%s\t%s\n' % (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), query_str, str(explains).decode("string_escape"))
         #os.system('echo "%s" >> %s' % (log, '~/docs/youdao_log'))
-        with open('youdao_log', 'a') as fout:
+        with open(os.getenv('HOME') + '/docs/youdao_log', 'a') as fout:
             fout.write('%s\t%s' % (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), query_str))
             fout.write("\n")
             for i in explains:

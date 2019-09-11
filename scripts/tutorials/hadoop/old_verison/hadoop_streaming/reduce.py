@@ -14,13 +14,13 @@ import time, json, traceback
 
 
 def main():
-    for line in sys.stdin:
-        map_output_line = line.strip()
-        deal(map_output_line)
+    for map_output_line in sys.stdin:
+        line = map_output_line.strip()
+        deal(line)
 
 
-def deal(map_output_line):
-    reduce_input_columns = map_output_line.split('\t', 1)
+def deal(line):
+    reduce_input_columns = line.split('\t', 1)
     reduce_k = reduce_input_columns[0]
     print('%s\t%s' % (reduce_k, map_output_line))
 

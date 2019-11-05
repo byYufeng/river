@@ -32,14 +32,14 @@ def run(input_base_uri, output_base_uri, date_str):
     time_dt = datetime.strptime(date_str, date_format)
     uri_list = [input_base_uri.strip() % datetime.strftime(time_dt - timedelta(days=day), date_format) for day in range(last_days)]
     input_uri = ','.join(uri_list)
-    shixianzhuji_rdd = sc.textFile(input_uri)
-    shixianzhuji_df = sqlContext.read.json(shixianzhuji_rdd)
-    print 'total count: %s' % shixianzhuji_df.count()
+    rdd = sc.textFile(input_uri)
+    df = sqlContext.read.json(rdd)
+    print 'total count: %s' % df.count()
 
     # query
     # sql_filter = 'remote_geo_detail.global_country_code != "CN" and remote_geo_detail.global_country_code != ""'
     sql_filter = ''
-    res_df = shixianzhuji_df.filter(sql_filter)
+    res_df = df.filter(sql_filter)
     
     # trans df type result to json type result
     res_dict_list = [x.asDict(True) for x in res_df.collect()]

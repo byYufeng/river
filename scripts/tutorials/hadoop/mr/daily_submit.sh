@@ -26,7 +26,7 @@ fi
 # execute 
 MSG_ID=""
 JOB_NAME="fsrm_${data_date}__mr"
-echo "[*] $JOB_NAME started."
+echo "[*] `date` $JOB_NAME started."
 sh -x archive.sh $JOB_NAME
 sh submit.sh ${data_date} $JOB_NAME 1>${logs_path}/${log_prefix}.out 2>${logs_path}/${log_prefix}.err
 
@@ -43,6 +43,6 @@ if [[ $? -ne 0 ]]; then
     _syslog $MSG_ID "[mail subject=\"$JOB_NAME failed\"]" "\`$trace_url\`"
     exit 1
 else
-    echo "[*] $JOB_NAME successed."
+    echo "[*] `date` $JOB_NAME successed."
     #_syslog $MSG_ID "[mail subject=\"$JOB_NAME successed\"]" "None"
 fi

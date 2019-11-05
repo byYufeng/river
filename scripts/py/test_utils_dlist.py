@@ -5,13 +5,14 @@
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
-sys.path.append('..')
+sys.path.append('.')
+sys.path.append('~/riven')
 
 import os
-import utils
+from utils import common
 
 def main():
-    dl = utils.Dlist()
+    dl = common.Dlist()
     dl.put(1, 3)
     print dl
     dl.put(1, 4)

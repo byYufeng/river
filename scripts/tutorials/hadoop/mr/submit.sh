@@ -11,21 +11,20 @@ cwd=$(dirname `readlink -f $0`)
 source ~/.bashrc
 
 hadoop fs -test -e $OUTPUT_PATH
-if [ $? -eq 0 ]; then
-    hadoop fs -rm -r ${OUTPUT_PATH}
-else
+if [ $? -eq 1 ]; then
     hadoop fs -mkdir -p ${OUTPUT_PATH}
 fi
+hadoop fs -rm -r ${OUTPUT_PATH}
 
 hadoop streaming \
     -D mapred.job.name=${JOB_NAME} \
     -D mapred.job.queue.name=root.default \
+    -D mapreduce.success.file.status=true \
+    -D mapred.map.tasks=1000 \
     -D mapred.reduce.tasks=100 \
-    -D mapreduce.map.memory.mb=2048 \
     -D mapreduce.map.memory.mb=2048 \
     -D mapred.child.java.opts=-Xmx2048m \
     -D mapreduce.jobtracker.split.metainfo.maxsize=-1 \
-    -D mapreduce.reduce.memory.mb=4096 \
     -D mapreduce.reduce.memory.mb=4096 \
     -D mapred.task.timeout=3600000 \
     -D mapred.compress.map.out=false \

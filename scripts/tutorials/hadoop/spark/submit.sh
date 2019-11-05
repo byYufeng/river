@@ -3,6 +3,7 @@
 data_date=$1
 job_name=$2
 ldap_passwd=""
+user=`whoami`
 
 driver_memory_num=8
 num_executors=4
@@ -32,6 +33,6 @@ source ~/.bashrc
   --conf spark.dynamicAllocation.maxExecutors=${num_executors} \
   --conf spark.dynamicAllocation.schedulerBacklogTimeout=1s \
   --conf spark.dynamicAllocation.executorIdleTimeout=300s \
-  --conf spark.sql.warehouse.dir=hdfs:///home/ti-center/baiyufeng/hive/warehouse \
-  --archives hdfs:///home/ti-center/baiyufeng/job_dependices/${job_name}/dependices.zip \
+  --conf spark.sql.warehouse.dir=hdfs:///home/hive/warehouse \
+  --archives hdfs:///home/$user/job_dependices/${job_name}/dependices.zip \
   main.py $data_date

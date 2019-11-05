@@ -1,11 +1,10 @@
 #! coding:utf-8
 
-import sys
+import os, sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-import os, time
-import traceback, json
+import time, traceback, json
 import multiprocessing
 
 import logging
@@ -18,13 +17,39 @@ class Utils(object):
         pass
 
 
+#*********************************************Logger*****************************************
+class Logger(object):
+    @staticmethod
+    # 设置文件路径,输出到文件和控制台
+    def getLogger(path='', maxSize=1000000000):
+        if path:
+            filename = path.strip().split('/')[-1]
+        else:
+            filename = sys.argv[0].split('.')[0]
+            filename = sys.argv[0]#.split('.')[0]
+            path = './%s.log' % filename
+
+        logger = logging.getLogger(filename)
+        logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s-%(name)s-%(levelname)s-%(message)s')
+        fh = RotatingFileHandler(path, maxBytes=maxSize, backupCount=1000)
+        fh.setFormatter(formatter)
+        fh.setLevel(logging.DEBUG)
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+        ch.setFormatter(formatter)
+        logger.addHandler(fh)
+        logger.addHandler(ch)
+        return logger
+
+
+# ******************************************Multi process**********************************************
 # 单进程遍历执行
 def single_process(func, params):
     results = []
     for param in params:
         results.append(apply(func, [param]))
     return results
-
 
 # 多进程同步执行
 def multi_sync(func, params, process_num):
@@ -37,9 +62,7 @@ def multi_sync(func, params, process_num):
             results.append(pool.apply(func))
     pool.close()
     pool.join()
-
     return results
-
 
 # 多进程异步执行
 def multi_async(func, params, process_num):
@@ -59,8 +82,9 @@ def multi_async(func, params, process_num):
     return results
 
 
-def print_format(res):
-    print ('\t'.join(['%s'] * len(res))) % tuple(res)
+# 返回按分隔符分隔列表元素的字符串:
+def print_split(_list, seperator):
+    return seperator.join(['%s'] * len(_list)) % tuple(_list)
 
 
 #一个value为list的dict
@@ -101,6 +125,7 @@ def readin(_file, func):
             line = line.strip()
             func(line)
 
+
 # 批量处理数据 data: iteraotr or stdin
 def batch(data_set, deal_func, bulk_func, size=500):
     cnt = 0 
@@ -121,7 +146,6 @@ def batch(data_set, deal_func, bulk_func, size=500):
 def date_timeconverter(o):
     if isinstance(o, datetime.datetime):
             return o.__str__()
-
 
 # 时间转换
 def timestamp_to_formatter_string(timestamp, formatter='%Y-%m-%d %H:%M:%S'):
@@ -147,29 +171,6 @@ def asc_list_to_int_list(_str):
 # hex       0x11
 
 
-# 设置日志,输出到文件和控制台
-def getLogger(path='', maxSize=1000000000):
-    if path:
-        filename = path.strip().split('/')[-1]
-    else:
-        filename = sys.argv[0].split('.')[0]
-        filename = sys.argv[0]#.split('.')[0]
-        path = './%s.log' % filename
-
-    logger = logging.getLogger(filename)
-    logger.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s-%(name)s-%(levelname)s-%(message)s')
-    fh = RotatingFileHandler(path, maxBytes=maxSize, backupCount=1000)
-    fh.setFormatter(formatter)
-    fh.setLevel(logging.DEBUG)
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    ch.setFormatter(formatter)
-    logger.addHandler(fh)
-    logger.addHandler(ch)
-    return logger
-
-
 # 正则
 def regex_rule():
     regex_dic = { 
@@ -177,6 +178,29 @@ def regex_rule():
                 'url' : re.compile('(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]')
                 }  
     return regex_dic
+
+
+# *****************************GZ*********************************
+def gzip_compress(c_data):
+    buf = StringIO()
+    try:
+        with gzip.GzipFile(mode='wb', fileobj=buf) as f:
+            f.write(c_data)
+        return  buf.getvalue()
+    except Exception as e:
+        print ("compress wrong"+e)
+    finally:
+        f.close()
+
+def gzip_uncompress(c_data):
+    try:
+        buf = StringIO(c_data)
+        with gzip.GzipFile(mode='rb', fileobj=buf) as f:
+            return f.read()
+    except Exception as  e:
+        print("uncompress wrong"+e)
+    finally:
+        f.close()
 
 
 def main():

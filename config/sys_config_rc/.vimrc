@@ -74,8 +74,8 @@ func SetComment()
         call append(21, '    main()')
     endif
 endfunc
-autocmd BufNewFile *.sh exec ":call SetComment()" | normal 3G
 autocmd BufNewFile *.sh exec ":call SetComment()" | normal 4G
+autocmd BufNewFile *.php exec ":call SetComment()" | normal 3G
 autocmd BufNewFile *.py exec ":call SetComment()" | normal 18G
 
 "自动维护修改时间

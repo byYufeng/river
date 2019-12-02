@@ -41,6 +41,7 @@ class RMQ_CLIENT():
         credentials = pika.PlainCredentials(user, passwd)
         parameters = pika.ConnectionParameters(host, port, vhost, credentials, heartbeat_interval=0)
         self.rmq_conn = pika.BlockingConnection(parameters)
+        #self.rmq_conn.socket.settimeout(86400*7)
         
 
     def init_channel(self, exchange_name, exchange_type, queue_name, routing_key):

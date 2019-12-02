@@ -15,20 +15,21 @@ import traceback, json
 import redis
 
 class REDIS_CLIENT():
+    def __init__(self, config={}):
+        #self.connection_pool = redis.ConnectionPool(
+        self.connection_pool = redis.BlockingConnectionPool(
+                host=config.get('host', '127.0.0.1'),
+                password=config.get('password', ''),
+                port=int(config.get('port', 6379)),
+                db=config.get('db', 0),
+                max_connections=int(config.get('connections', 100))
+        )
+        self.redis_client = redis.Redis(connection_pool=self.connection_pool)
 
-    def __init__(self, config):
-        self.redis_client = redis.Redis(
-                                #connection_pool=redis.BlockingConnectionPool(
-                                connection_pool=redis.ConnectionPool(
-                                                        host=config['host'],
-                                                        password=config.get('password', ''),
-                                                        port=int(config.get('port', 6379)),
-                                                        db=config['db'],
-                                                        max_connections=int(config.get('connections', 100))
-                                                        )
-                            )
-
-
+    # 不同的type key不能相同
+    # String
+    # set params: ex/px: expire time for seconds/miliseconds 
+    # set params: nx/xx: only insert/only update (default:upsert)
     def set(self, k, v, **kwargs):
         self.redis_client.set(k, v, **kwargs)
         return None
@@ -38,6 +39,25 @@ class REDIS_CLIENT():
 
     def delete(self, k):
         return self.redis_client.delete(k)
+
+    def incr(self, k, amount=1):
+        return self.redis_client.incr(k) # return value after opration
+
+    def scan(self, **kwargs):
+        return self.redis_client.scan(**kwargs)
+
+    ## hash:hset/hget/hmset/hmget/hgetall/hdel/hscan
+    ## list:
+
+    # Util
+    def count(self):
+        return self.redis_client.dbsize()
+
+    def keys(self):
+        return self.redis_client.keys()
+
+    def truncate(self):
+        return self.redis_client.flushdb()
 
     # batch [[[set], ['name', 'b']], [['set'], ['age', '23']]]
     def batch(self, operations):
@@ -57,12 +77,11 @@ class REDIS_CLIENT():
 
 def main():
     redis_config = {
-        'host':'127.0.0.1',
-        'port':9221,
+        'host': '127.0.0.1',
+        'port': 6379,
         'db': 0,
         'connections':100
     }
-
 
     redis_client = REDIS_CLIENT(redis_config)
     redis_client.set('name', 'laozhang')

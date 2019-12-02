@@ -62,21 +62,23 @@ func SetComment()
         call append(9, 'reload(sys)')
         call append(10, 'sys.setdefaultencoding("utf-8")')
         call append(11, 'sys.path.append(".")')
-        call append(12, '')
-        call append(13, 'import time, json, traceback')
+        call append(12, 'sys.path.append(os.getenv("HOME")+"/riven/utils")')
+        call append(13, 'sys.path.append(os.getenv("HOME")+"/riven/libs/python")')
         call append(14, '')
-        call append(15, '')
-        call append(16, 'def main():')
-        call append(17, '     ')
-        call append(18, '')
-        call append(19, '')
-        call append(20, 'if __name__ == "__main__":')
-        call append(21, '    main()')
+        call append(15, 'import time, json, traceback')
+        call append(16, '')
+        call append(17, '')
+        call append(18, 'def main():')
+        call append(19, '     ')
+        call append(20, '')
+        call append(21, '')
+        call append(22, 'if __name__ == "__main__":')
+        call append(23, '    main()')
     endif
 endfunc
 autocmd BufNewFile *.sh exec ":call SetComment()" | normal 4G
 autocmd BufNewFile *.php exec ":call SetComment()" | normal 3G
-autocmd BufNewFile *.py exec ":call SetComment()" | normal 18G
+autocmd BufNewFile *.py exec ":call SetComment()" | normal 20G
 
 "自动维护修改时间
 function UpdateTime()

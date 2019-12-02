@@ -27,8 +27,7 @@ def run(input_uri='', output_uri=''):
 
     # rdd map&filter
     target = ''
-    from urllib import unquote
-    rdd_map = rdd.map(lambda x: (unquote(json.loads(x.strip()).get("url")).lower(), x)) 
+    rdd_map = rdd.map(lambda x: x)
     rdd_res = rdd_map.filter(lambda x: target in x[0])
     print rdd_res.take(10)
 

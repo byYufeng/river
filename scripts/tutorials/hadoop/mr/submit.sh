@@ -1,7 +1,6 @@
 #!/bin/bash
 
-date=$1
-date2=`date -d "$date" +%Y%m%d`
+date=$1; date2=`date -d "$date" +%Y%m%d`
 JOB_NAME=$2
 
 INPUT_PATH=""
@@ -10,9 +9,18 @@ OUTPUT_PATH=""
 cwd=$(dirname `readlink -f $0`)
 source ~/.bashrc
 
+# 检查输出目录。若存在，检查是否有任务完成的FLAG，完成则退出。若不存在，则新建以保证父目录可用，然后删除该目录
 hadoop fs -test -e $OUTPUT_PATH
 if [ $? -eq 1 ]; then
     hadoop fs -mkdir -p ${OUTPUT_PATH}
+else
+    SUCCESS_FLAG=`hadoop fs -stat ${OUTPUT}/_SUCCESS`
+    if [ -z "$SUCCESS_FLAG" ]; then
+        echo ""
+    else
+        echo "[*] `date` JOB $JOB_NAME has been completed!"
+        exit 0
+    fi
 fi
 hadoop fs -rm -r ${OUTPUT_PATH}
 
@@ -42,8 +50,8 @@ hadoop streaming \
     -reducer 'python reduce.py' \
 
 if [[ $? -ne 0 ]]; then
-    echo "$JOB_NAME failed"
+    echo "[*] `date` $JOB_NAME failed"
     exit 1
 else
-    echo "$JOB_NAME finished"
+    echo "[*] `date` $JOB_NAME finished"
 fi

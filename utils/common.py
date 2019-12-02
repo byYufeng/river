@@ -148,6 +148,9 @@ def date_timeconverter(o):
             return o.__str__()
 
 # 时间转换
+def get_current_datetime(formatter='%Y-%m-%d %H:%M:%S'):
+    return timestamp_to_formatter_string(time.time(), formatter)
+
 def timestamp_to_formatter_string(timestamp, formatter='%Y-%m-%d %H:%M:%S'):
     return time.strftime(formatter, time.localtime(timestamp))
 

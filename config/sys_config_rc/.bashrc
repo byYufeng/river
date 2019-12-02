@@ -7,6 +7,8 @@ fi
 #stty -ixon
 
 # ***************************************sys************************************
+HISTSIZE=10000
+HISTFILESIZE=10000
 alias yum='sudo yum'
 alias ll='ls -lh --color=auto'
 alias la='ls -A --color=auto'
@@ -17,53 +19,11 @@ alias rm='trash'
 alias free='free -h'
 alias dud='du -h --max-depth=1'
 alias dus='du -sh'
+alias psg="ps axu | grep" #ps
+
 alias vim_none='vim -u NONE'
-curll(){
-    curl localhost:$1
-}
-
-# ***************************************hadoop************************************
-# hadoop alias
-alias hdfs='hadoop fs'
-alias hls='hadoop fs -ls'
-alias hget='hadoop fs -get'
-alias hput='hadoop fs -put'
-alias hcat='hadoop fs -cat'
-alias htext='hadoop fs -text'
-alias hdu='hadoop fs -du -h'
-alias hdus='hadoop fs -du -h -s'
-alias hrm='hadoop fs -rm -r -f'
-alias hmk='hadoop fs -mkdir -p'
-alias hhome='hadoop fs -ls ~'
-hhead(){
-    hadoop fs -text $1 | head
-}
-htree(){
-    hadoop fs -ls -R $1 | awk '{print $8}' | sed -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/' 
-}
-
-alias yls='yarn application -list'
-alias ylsm="yarn application -list | grep `whoami`"
-alias ylogs="yarn logs -applicationId"
-alias ykill='yarn application -kill'
-
-alias pyspark='~/libs/spark/bin/pyspark'
-
-
-
-# ***************************************git************************************
-alias gstatus="git status"
-alias gdiff="git difftool"
-
-
-# User specific aliases and functions
-#alias googler='proxychains4 googler'
-
-#alias im="python ~/scripts/mojo_im.py "
-#alias qq="python ~/scripts/mojo_im.py qq"
-#alias wx="python ~/scripts/mojo_im.py wx"
-#alias ttt="python ~/scripts/mojo_im.py qq printt | tail -7 | head -5"
-#alias tt="python ~/scripts/mojo_im.py qq send uid "
+alias mtop="ps auxw | head -1; ps auxw | sort -rn -k4 | head -3"
+alias tcpdump="sudo tcpdump"
 
 #replace rm of mv
 trash()
@@ -88,16 +48,92 @@ hide(){
     mv $1 .$1
 }
 
-#docker
+awkp(){ # awk -F"$1" '{print $2,$3...}', 不适于用分隔符为空格
+    args=($@);awk -F"$1" "BEGIN{OFS=\"\t\"};{print ${args[@]:1}}"
+}
+
+suma(){ #单列数字 按列求和
+    awk '{a[0]+=$1;} END{print a[0]}'
+}
+
+wca(){ # word count: 适用单列key和key+分隔符+value
+    if [ $# == 0 ]
+    then # echo -e 'a\nb\na' |wca
+        awk '{a[$1]+=1;} END{for(i in a) print i,a[i]}'
+    else # echo -e 'a 1\nb 2\na 3' | wca ' '
+        awk -F"$1" '{a[$1]+=$2;} END{for(i in a) print i,a[i]}'
+    fi
+}
+
+curll(){ # curl localhost
+    #if [ $# == 0 ]; then port=80; else port=$1; fi;curl 127.0.0.1:$port
+    curl 127.0.0.1:${1:-80}
+}
+
+# ***************************************hadoop************************************
+# hadoop alias
+alias hdfs='hadoop fs'
+alias hls='hadoop fs -ls'
+alias hget='hadoop fs -get'
+alias hput='hadoop fs -put'
+alias hcat='hadoop fs -cat'
+alias htext='hadoop fs -text'
+alias hdu='hadoop fs -du -h'
+alias hdus='hadoop fs -du -h -s'
+alias hrm='hadoop fs -rm -r -f'
+alias hmk='hadoop fs -mkdir -p'
+alias hhome='hadoop fs -ls ~'
+
+hgett(){ #hget & rename /a/b -> hdfs_a_b
+    hadoop dfs -get $1 hdfs`echo $1 | sed 's#/#_#g'`
+}
+hhead(){
+    hadoop fs -text $1 | head
+}
+htree(){
+    hadoop fs -ls -R $1 | awk '{print $8}' | sed -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/' 
+}
+
+alias yls='yarn application -list'
+alias ylsm="yarn application -list | grep `whoami`"
+alias ylogs="yarn logs -applicationId"
+alias ykill='yarn application -kill'
+alias yui="w3m http://127.0.0.1:8088" # 访问UI界面
+alias pyspark='/usr/lib/spark/bin/pyspark'
+
+
+# ***************************************git************************************
+alias gstatus="git status"
+alias gdiff="git difftool -y"
+alias gadd="git add * -A"
+
+
+# ********************************************other****************************************
+# User specific aliases and functions
+#alias googler='proxychains4 googler'
+
+#alias im="python ~/scripts/mojo_im.py "
+#alias qq="python ~/scripts/mojo_im.py qq"
+#alias wx="python ~/scripts/mojo_im.py wx"
+#alias ttt="python ~/scripts/mojo_im.py qq printt | tail -7 | head -5"
+#alias tt="python ~/scripts/mojo_im.py qq send uid "
+
+
+# ********************************************************docker*******************************************
 dtags(){
     for Repo in $* ; do
-        curl -s -S "https://registry.hub.docker.com/v2/repositories/library/$Repo/tags/" | \ 
-        sed -e 's/,/,\n/g' -e 's/\[/\[\n/g' | \ 
-        grep '"name"' | \ 
-        awk -F\" '{print $4;}' | \ 
-        sort -fu | \ 
-        sed -e "s/^/${Repo}:/"
+        curl -s -S "https://registry.hub.docker.com/v2/repositories/library/$Repo/tags/" | sed -e 's/,/,\n/g' -e 's/\[/\[\n/g' | grep '"name"' | awk -F\" '{print $4;}' | sort -fu | sed -e "s/^/${Repo}:/"
+#        curl -s -S "https://registry.hub.docker.com/v2/repositories/library/$Repo/tags/" | \ 
+#            sed -e 's/,/,\n/g' -e 's/\[/\[\n/g' | \ 
+#            grep '"name"' | \ 
+#            awk -F\" '{print $4;}' | \ 
+#            sort -fu | \ 
+#            sed -e "s/^/${Repo}:/"
     done
+}
+
+drm(){
+    docker stop $1 && docker rm $1
 }
 
 # exec-attach $container_name
@@ -108,7 +144,13 @@ da(){
 # run $image_name $container_name #other_args
 dr(){
     args=($@)
-    docker run -itd --name $2 --restart always ${args[@]:2} $1 sh
+    #docker run -itd --name $2 --restart always ${args[@]:2} $1 sh
+    docker run -itd --name $2 ${args[@]:2} $1 sh
+}
+
+# 
+dlogs(){
+    docker logs $1
 }
 
 # 
@@ -119,6 +161,11 @@ dps(){
 # 
 drm(){
     docker rm -f $1
+}
+
+# *************************************other functions****************************
+rready(){
+    sh ~/riven/bin/env_backup.sh
 }
 
 # alias riven_commit='cd ~/riven && bin/commit_git.sh $1 && cd -'
@@ -145,10 +192,10 @@ ul(){
 }
 
 #avoid to enter ssh phrase each time
-ssh-agent_login(){
+#ssh-agent_login(){
     #eval `ssh-agent`
-    ssh-add ~/.ssh/id_rsa.r81.key
-}
+    #ssh-add ~/.ssh/id_rsa.r81.key
+#}
 
 tmux_init()
 {

@@ -1,14 +1,24 @@
 #! coding:utf-8
 
 import os, sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+#reload(sys)
+#sys.setdefaultencoding("utf-8")
 
 import time, traceback, json
 import multiprocessing
+import datetime
 
 import logging
 from logging.handlers import RotatingFileHandler
+
+
+def main():
+    # test trans
+    print(int_to_asc(70))
+    print(int_list_to_str([70, 80, 90]))
+
+    print(asc_to_int('E'))
+    print(asc_list_to_int_list('BDC'))
 
 
 class Utils(object):
@@ -83,8 +93,12 @@ def multi_async(func, params, process_num):
 
 
 # 返回按分隔符分隔列表元素的字符串:
-def print_split(_list, seperator):
+def print_split(_list, seperator="\t"):
     return seperator.join(['%s'] * len(_list)) % tuple(_list)
+
+# 返回随机长度的字符串
+def random_string(num):
+    return ''.join(random.sample(string.ascii_letters + string.digits, num))
 
 
 #一个value为list的dict
@@ -109,6 +123,7 @@ def Singleton(cls, *args, **kwargs):
 
 
 #装饰器：try catch
+"""
 def trycatch(cls, *args, **kwargs):
     def wrapper():
         try:
@@ -116,6 +131,7 @@ def trycatch(cls, *args, **kwargs):
         except Exception, e:
             pass
     return wrapper()
+"""
 
 
 #逐行处理文件
@@ -143,6 +159,7 @@ def batch(data_set, deal_func, bulk_func, size=500):
 
 
 # 处理json.dumps()中datetime无法直接转换的问题
+# json.dumps(data, default=lambda x: x.__str__())
 def date_timeconverter(o):
     if isinstance(o, datetime.datetime):
             return o.__str__()
@@ -151,11 +168,17 @@ def date_timeconverter(o):
 def get_current_datetime(formatter='%Y-%m-%d %H:%M:%S'):
     return timestamp_to_formatter_string(time.time(), formatter)
 
+def formatter_string_to_timestamp(formatter_string, formatter='%Y-%m-%d %H:%M:%S'):
+    return time.mktime(time.strptime(formatter_string, formatter))
+
 def timestamp_to_formatter_string(timestamp, formatter='%Y-%m-%d %H:%M:%S'):
     return time.strftime(formatter, time.localtime(timestamp))
 
-def formatter_string_to_timestamp(formatter_string, formatter='%Y-%m-%d %H:%M:%S'):
-    return time.mktime(time.strptime(formatter_string, formatter))
+def formatter_string_to_datetime(formatter_string, formatter='%Y-%m-%d %H:%M:%S'):
+    return datetime.datetime.strptime(formatter_string, formatter)
+
+def datetime_to_formatter_string(_datetime, formatter='%Y-%m-%d %H:%M:%S'):
+    return #datetime.datetime.strftime(formatter, _datetime)
 
 # asc字符和编码转换
 def int_to_asc(_int):
@@ -204,15 +227,6 @@ def gzip_uncompress(c_data):
         print("uncompress wrong"+e)
     finally:
         f.close()
-
-
-def main():
-    # test trans
-    print int_to_asc(70)
-    print int_list_to_str([70, 80, 90])
-
-    print asc_to_int('E')
-    print asc_list_to_int_list('BDC')
 
 
 if __name__ == "__main__":

@@ -2,58 +2,39 @@
 # -*- coding: utf-8 -*-
 
 import os, sys 
-reload(sys)
-sys.setdefaultencoding('utf8')
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.getcwd(), 'dependices'))
 
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SQLContext, Row 
 from datetime import datetime, timedelta
 import json, time
 
+from utils import common
+
 
 def main():
-    job_name = ''
-    user = ''
-    input_uri = "/home/{user}".format(user=user)
-    output_uri = "/home/{user}/{path}".format(user=user, path=job_name + time.time())
-    run(output_uri)
+    user = 'fgg'
+    project = "hadoop_test"
+    input_uri = "/home/{user}/{project}/input".format(user=user, project=project)
+    output_uri = "/home/{user}/{project}/output".format(user=user, project=project)
 
-
-def run(input_uri='', output_uri=''):
-    uri_list = []
-    input_uri = ','.join(uri_list)
     rdd = sc.textFile(input_uri)
+    rdd = rdd.map(lambda x: x)
+    rdd.saveAsTextFile(output_uri)
 
-    # rdd map&filter
-    target = ''
-    rdd_map = rdd.map(lambda x: x)
-    rdd_res = rdd_map.filter(lambda x: target in x[0])
-    print rdd_res.take(10)
-
-
-    ''' 
-    # query: sql_filter = 'remote_geo_detail.global_country_code != "CN" and remote_geo_detail.global_country_code != ""'
-    df = sqlContext.read.json(rdd)
-    print 'total count: %s' % df.count()
-    sql_filter = 'lower(url) like "%{0}%"'.format(target.lower())
-    res_df = df.filter(sql_filter)
-    print 'res count: %s' % res_df.count()
-
-
-    # trans df type result to json type result
-    res_dict_list = [x.asDict(True) for x in res_df.collect()]
-    res_json_list = [json.dumps(x) for x in res_dict_list]
-    '''
-
-    # output
-    print res_json_list
-    res_json_rdd = sc.parallelize(res_json_list)
-    res_json_rdd.saveAsTextFile(output_uri)
+    # test third
+    text_data = ""
+    with open("dependices/text_data") as fin:
+        text_data = fin.read().strip()
+    rdd2 = sc.parallelize([text_data, common.formatter_string_to_timestamp("2020-01-01 00:00:00")])
+    rdd2.saveAsTextFile(output_uri+"2")
 
 
 if __name__ == "__main__":
-    conf = SparkConf()
+    conf = SparkConf().set("spark.hadoop.validateOutputSpecs", "false")
     sc = SparkContext(conf=conf)
     sqlContext = SQLContext(sc)
     main()

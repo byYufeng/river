@@ -1,0 +1,8 @@
+1,fgg,math,95
+2,fgg,art,82
+3,fgg,sport,86
+4,gf1,art,85
+5,gf1,math,90
+6,gf2,math,61
+7,gf3,art,90
+8,gf3,sport,80

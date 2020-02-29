@@ -17,7 +17,7 @@ done
 # iter by index
 for i in ${!a2[@]}
 do
-    echo ${a2[$i]}
+    echo $i, ${a2[$i]}
 done
 
 # short line

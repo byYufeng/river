@@ -1,0 +1,15 @@
+FROM alpine:3.8
+MAINTAINER fgg <fgg@qq.com>
+
+WORKDIR /
+
+#COPY requirements.txt /tmp/requirements.txt
+
+RUN sed -i 's#http://dl-cdn.alpinelinux.org#https://mirrors.aliyun.com#g' /etc/apk/repositories && \
+    apk add --no-cache python2 python2-dev py2-pip gcc musl-dev linux-headers vim && \
+    pip install --upgrade pip -i https://mirrors.aliyun.com/pypi/simple --no-cache-dir && \
+    #pip install -r /tmp/requirements.txt -i https://mirrors.aliyun.com/pypi/simple --no-cache-dir && \
+
+#EXPOSE 80
+
+CMD ["sh", "-c", "cd"]

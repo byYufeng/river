@@ -22,12 +22,9 @@ def main():
 
 
 def deal(line):
-    #k, v = line.split('\t', 1)
-    #print('%s\t%s' % (k, v)) 
-
-    k = line.split('\t', 1)[0]
-    print('%s\t%s' % (k, line)) 
-    #for x in os.walk('.'): print x;
+    words = line.split('\t')
+    for word in words:
+        print('%s\t%s' % (word, 1)) 
 
 
 if __name__ == "__main__":

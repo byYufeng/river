@@ -9,17 +9,24 @@ fi
 # ***************************************sys************************************
 HISTSIZE=10000
 HISTFILESIZE=10000
-alias yum='sudo yum'
+alias python='python3'
+alias py='python3'
+alias py2='python2'
+alias py3='python3'
+
+alias l='ls -l'
 alias ll='ls -lh --color=auto'
 alias la='ls -A --color=auto'
 alias lla='ls -lhA --color=auto'
 alias mv='mv -i'
 alias cp='cp -r -i'
 alias rm='trash'
+alias brm='/bin/rm -rf'
 alias free='free -h'
 alias dud='du -h --max-depth=1'
 alias dus='du -sh'
 alias psg="ps axu | grep" #ps
+alias yum='sudo yum'
 
 alias vim_none='vim -u NONE'
 alias mtop="ps auxw | head -1; ps auxw | sort -rn -k4 | head -3"
@@ -80,8 +87,9 @@ alias hcat='hadoop fs -cat'
 alias htext='hadoop fs -text'
 alias hdu='hadoop fs -du -h'
 alias hdus='hadoop fs -du -h -s'
-alias hrm='hadoop fs -rm -r -f'
+alias hmv='hadoop fs -mv'
 alias hmk='hadoop fs -mkdir -p'
+alias hrm='hadoop fs -rm -r -f'
 alias hhome='hadoop fs -ls ~'
 
 hgett(){ #hget & rename /a/b -> hdfs_a_b
@@ -92,6 +100,9 @@ hhead(){
 }
 htree(){
     hadoop fs -ls -R $1 | awk '{print $8}' | sed -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/' 
+}
+harchive(){ # $1:path $2:dir_name
+    hadoop archive -archiveName $2.har -p $1 $2 $1
 }
 
 alias yls='yarn application -list'
@@ -106,6 +117,8 @@ alias pyspark='/usr/lib/spark/bin/pyspark'
 alias gstatus="git status"
 alias gdiff="git difftool -y"
 alias gadd="git add * -A"
+alias gcommit="git commit -am" #comment
+alias gpush="git push origin" #branch
 
 
 # ********************************************other****************************************
@@ -141,11 +154,11 @@ da(){
     docker exec -it $1 sh -c "cd && bash" || docker exec -it $1 sh -c "cd && sh"
 }
 
-# run $image_name $container_name #other_args
+# run $image_name $container_name #other_args;rm cmd:sh
 dr(){
     args=($@)
-    #docker run -itd --name $2 --restart always ${args[@]:2} $1 sh
-    docker run -itd --name $2 ${args[@]:2} $1 sh
+    #docker run -itd --name $2 ${args[@]:2} $1 sh
+    docker run -itd --name $2 --restart always ${args[@]:2} $1
 }
 
 # 

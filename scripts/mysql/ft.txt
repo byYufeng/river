@@ -1,0 +1,4 @@
+1,fgg1,23,beijing
+2,fgg2,26,beijing
+3,gf1,23,sichuan
+4,gf2,19,zhejiang

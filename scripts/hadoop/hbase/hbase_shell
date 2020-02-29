@@ -1,0 +1,25 @@
+# Hbase for python: {key: {cf: {cf_column: [value, timestamp]}}} 相当于一个有序的，嵌套的，存储时平铺的hash表
+# Hbase for java: SortedMap<Rowkey, SortedMap<ColumnFamily, SortedMap<Column, List<Value, Timestamp>>>>
+
+# create table
+create 'table1', 'cf1'
+list 'table1'
+
+# put data
+put 'table1', 'key1', 'cf1:a', 'va'
+put 'table1', 'key1', 'cf1:b', 'vb'
+put 'table1', 'key2', 'cf1:a', 'va2'
+put 'table1', 'key0', 'cf1:a', 'va0'
+put 'table1', 'key0', 'cf1:b', 'vb0'
+scan 'table1'
+
+# update data
+put 'table1', 'key1', 'cf1:a', 'va1'
+scan 'table1' 
+
+# get data
+get 'table1', 'key1'
+scan 'table1'
+
+# delete
+delete 'table1', 'key0', 'cf1:b', 1575428435116

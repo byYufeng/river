@@ -1,0 +1,4 @@
+zhangsan|Chinese:80,Math:60,English:90
+lisi|Chinese:90,Math:80,English:70
+wangwu|Chinese:88,Math:90,English:96
+maliu|Chinese:99,Math:65,English:60

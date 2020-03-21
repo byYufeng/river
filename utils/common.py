@@ -134,12 +134,16 @@ def trycatch(cls, *args, **kwargs):
 """
 
 
-#逐行处理文件
-def readin(_file, func):
+# 读取输入流：逐行读取，并处理
+def readin(func, _file):
     with open(_file) as fin:
         for line in fin:
             line = line.strip()
             func(line)
+
+# 读取输入流：加载全部
+def readlines(_steam=sys.stdin):
+    return map(lambda x:x.strip(), _steam.readlines())
 
 
 # 批量处理数据 data: iteraotr or stdin

@@ -1,0 +1,3 @@
+001|bai|26|swim,trip,film
+002|mei|23|running,film
+003|girl|21|food

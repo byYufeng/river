@@ -1,21 +1,4 @@
-------------------------------------------------------------explode-------------------------------------------------------------------
--- 在hive中使用explode等UDTF函数将字段拆分为多行时，不允许再select其他字段。所以此时应使用Lateral view，将UDTF生成的结果生成一个虚拟表，然后这个虚拟表会和>输入行进行join，来达到连接UDTF外的select字段的目的
--- lateral view explode() t as c： 生成虚拟表t，并映射为字段c
--- >https://my.oschina.net/u/3754001/blog/3028523
-
--- data: string_list
-create table users1(id int, name string, age int, tags string) row format delimited fields terminated by '|';
-load data local inpath 'users.txt' into table users1;
-select * from users1;
-select users1.id, col from users1 lateral view explode(split(tags, ',')) t as col;
---select users.id, t.* from users lateral view explode(split(tags, ',')) t as col;(效果同上)
-
--- data: array
-create table users2(id int, name string, age int, tags array<string>) row format delimited fields terminated by '|' collection items terminated by ',';
-load data local inpath 'users.txt' into table users2;
-select * from users2;
-select users2.id, t.* from users2 lateral view explode(tags) t as col;
-
+-- 行列转换：完全同mysql（但是需注意字段和表的别名不能带引号的语法区别）
 
 -- 列转行
 -- 以某一列为key，剩下所有列当做一个字段，每个字段对应的值当做一个字段，把一行的每一列都拆分为一条数据。同样只适于三个字段维度
@@ -69,18 +52,8 @@ from ft1 group by name;
 
 
 -- 行聚合为列
--- ... concat_ws($sep, collect_list(b)) group by a...
--- group_concat 貌似有些时候可以用有些时候不可以？跟版本有关？
+-- ...group_concat(k)...group by k
 
 
 -- 列拆分为行
 -- explode
-
-
--- 分组计算topK
-select * from (select name, subject, score, rank() over (partition by subject order by score desc) as rank from ft1) t where rank <= 2;
---先用 rand() over(partition by $key order by value) 计算出每组的排名，再根据排名进行select。
---计算排名有三个函数：rank，dense_rank, row_number()，分别对应排名相同时并列相同且占据名额、并列相同且不占据名额、不并列的三种情况
-
--- 找出大于平均值的记录
-select * from (select *,avg(score) over (partition by subject) as avg_ from ft1) t where score > avg_;

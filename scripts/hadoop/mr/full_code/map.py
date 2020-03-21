@@ -14,6 +14,11 @@ sys.path.append(os.getcwd() + '/dependices')
 
 import time, json, traceback
 
+try:
+    input_file = os.environ['mapreduce_map_input_file'] # in 2.0+
+except KeyError:
+    input_file = os.environ['map_input_file'] # in 1.0
+
 
 def main():
     for input_line in sys.stdin:

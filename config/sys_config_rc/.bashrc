@@ -26,7 +26,10 @@ alias free='free -h'
 alias dud='du -h --max-depth=1'
 alias dus='du -sh'
 alias psg="ps axu | grep" #ps
+alias hg="history | grep" #history
 alias yum='sudo yum'
+alias svim='sudo vim'
+
 
 alias vim_none='vim -u NONE'
 alias mtop="ps auxw | head -1; ps auxw | sort -rn -k4 | head -3"
@@ -210,14 +213,17 @@ ul(){
     #ssh-add ~/.ssh/id_rsa.r81.key
 #}
 
-tmux_init()
-{
+tmux_init(){
     tmux new-session -d                  # 开启一个会话(后台)
     tmux new-window                      # 开启一个窗口(新窗口)
     #tmux split-window -h                # 开启一个竖屏
     #tmux split-window -v "top"          # 开启一个横屏,并执行top命令
     #tmux -2 attach-session -d           # tmux -2强制启用256color，连接已开启的tmux
     tmux attach-session
+}
+
+ta(){
+    tmux a -t $1 2>/dev/null || tmux a -t 0
 }
 
 # 判断是否已有开启的tmux会话，没有则开启
@@ -228,6 +234,7 @@ fi
 }
 #tmux_auto_attach
 #source .bash_completion_tmux.sh
+
 
 dnf(){
     da dnf_server

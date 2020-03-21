@@ -1,0 +1,28 @@
+- ELK:9200
+- HADOOP(HDFS+MR)
+- SPARK
+- HIVE
+- HBASE
+- ZOOKEEPER:2181
+- KAFKA:9092
+- Flume
+- SQOOP
+- Flink
+
+now: lambda
+source(mysql/txt/socket) -- piple(flume/sqoop) -> ods(hdfs/hive/hbase) 
+                                               -> mq(kafka) -- realtime(flink/sparkstreaming -> mq(kafka) -> dws(hdfs/hive/hbase) -> ads(es/hbase/redis) -> app
+                                                |           E               T                               L                   | 
+
+
+kappa
+source(mysql/txt/socket) -- piple(flume/sqoop) 
+                                               -> mq(kafka) -- realtime(flink/sparkstreaming) -> mq(kafka) -> app(api/web)
+                                                |           E               T                               L                   | 
+
+yarn rm:8032
+yarn ui:8088
+
+ods：各产品原始日志
+dws：各实体信息汇总
+ads：各应用指标

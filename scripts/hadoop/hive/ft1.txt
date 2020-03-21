@@ -1,1 +1,0 @@
-../../mysql/ft1.txt
